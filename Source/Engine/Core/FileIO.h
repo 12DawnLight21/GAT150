@@ -10,6 +10,7 @@ namespace umbra
 {
 	std::string getFilePath();
 	bool setFilePath(const std::filesystem::path& path); //:: = scope operator
+	std::string getFileName(const std::filesystem::path& path);
 
 	bool fileExists(const std::filesystem::path& path); //path& is a reference, which copies the variable being used?
 	bool getFileSize(const std::filesystem::path& path, size_t& size); //size_t is a unsigned long long, used in modern coding

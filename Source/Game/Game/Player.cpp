@@ -79,7 +79,7 @@ void Player::OnCollision(Actor* other)
 
 		if (other->m_tag == "Power")
 		{
-			float value = Health::getValue(1, 5);
+			int value = Health::getValue(1, 5);
 
 			m_game->SetLives(m_game->GetLives() + value);
 			dynamic_cast<SpaceRanch*>(m_game)->SetState(SpaceRanch::eState::Game);

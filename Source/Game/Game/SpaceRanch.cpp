@@ -166,24 +166,24 @@ void SpaceRanch::Update(float dt)
 
 		m_scene->RemoveAll();
 
-		umbra::EmitterData data;
-		data.burst = true;
-		data.burstCount = 100;
-		data.spawnRate = 200;
-		data.angle = 0;
-		data.angleRange = umbra::Pi;
-		data.lifetimeMin = 0.5f;
-		data.lifetimeMin = 1.5f;
-		data.speedMin = 50;
-		data.speedMax = 250;
-		data.damping = 0.5f;
-		data.color = umbra::Color{ 1, 0, 0, 1 };
+		//umbra::EmitterData data;
+		//data.burst = true;
+		//data.burstCount = 100;
+		//data.spawnRate = 200;
+		//data.angle = 0;
+		//data.angleRange = umbra::Pi;
+		//data.lifetimeMin = 0.5f;
+		//data.lifetimeMin = 1.5f;
+		//data.speedMin = 50;
+		//data.speedMax = 250;
+		//data.damping = 0.5f;
+		//data.color = umbra::Color{ 1, 0, 0, 1 };
 
-		umbra::Transform death{umbra::randomf(umbra::g_renderer.GetWidth()), umbra::randomf(umbra::g_renderer.GetHeight()), 1};
-		auto emitter = std::make_unique<umbra::Emitter>(death, data);
-		//emitter->m_lifespan = 1.0f; rewrote this to be better?
-		emitter->SetLifespan(0.1f);
-		m_scene->Add(std::move(emitter));
+		//umbra::Transform death{umbra::random(umbra::g_renderer.GetWidth()), umbra::random(umbra::g_renderer.GetHeight()), 1};
+		//auto emitter = std::make_unique<umbra::Emitter>(death, data);
+		////emitter->m_lifespan = 1.0f; rewrote this to be better?
+		//emitter->SetLifespan(0.1f);
+		//m_scene->Add(std::move(emitter));
 
 		if (m_stateTimer <= 0)
 			{

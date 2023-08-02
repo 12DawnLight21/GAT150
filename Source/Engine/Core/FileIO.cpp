@@ -1,5 +1,8 @@
 #include "FileIO.h"
+#include "Logger.h"
+
 #include <fstream>
+#include <iostream>
 
 namespace umbra
 {
@@ -14,6 +17,11 @@ namespace umbra
 		std::filesystem::current_path(path, ec);
 
 		return ec.value() == 0;
+	}
+
+	std::string getFileName(const std::filesystem::path& path)
+	{
+		return path.filename().string();
 	}
 
 	bool fileExists(const std::filesystem::path& path)
@@ -31,7 +39,11 @@ namespace umbra
 
 	bool readFile(const std::filesystem::path& path, std::string& buffer)
 	{
-		if (!fileExists(path)) return false;
+		if (!fileExists(path))
+		{
+			WARNING_LOG;
+			return false;
+		}
 
 		size_t size; //we need this to expand the buffer
 		if (!getFileSize(path, size)) return false;

@@ -8,9 +8,9 @@ class Health : public umbra::Actor
 			Actor{ transform, model }
 		{};
 
-		static float getValue(float min, float max)
+		static int getValue(int min, int max)
 		{
-			float value = umbra::randomf(min, max);
+			int value = umbra::random(min, max);
 			return value;
 		}
 
@@ -20,6 +20,6 @@ class Health : public umbra::Actor
 		friend class Player;
 
 	private:
-		float m_minValue = 1;
-		float m_maxValue = 5;
+		int m_minValue = 1;
+		int m_maxValue = 5;
 };

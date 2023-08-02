@@ -58,6 +58,8 @@ void funcs() //will crash your shit with a stack overflow
 
 int main(int argc, char* argv[])
 {
+	INFO_LOG;
+
 	umbra::MemoryTracker::Initialize();
 
 	umbra::seedRandom((unsigned int)time(nullptr));
@@ -133,18 +135,4 @@ int main(int argc, char* argv[])
 	return 0; 
 }
 
-// 5 additions to the game ive made for the final
-// background music / enemy & player shoot sounds (one for player one for enemy)
-// player is white , enemy is red / blue is powerups / life is now displayed
-// two types of attacks: head on collision and also projectiles
-// tutorial level added / game over screen 
-// added powerup class ; can heal player for 1-5 health every spawn (8 secs)
-
-
-
-
-
-// powerup for multiplier? (markiplier??)
-// might actually do waves instead o random gen enemies, pin in this tho
-// maybe not asteroids but another innanimate object with a diff color would be cool
-// differentiate enemies and the player using different colors (yellow for unkillables)
+// LNK errors are linking errors
