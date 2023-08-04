@@ -1,6 +1,7 @@
 #pragma once
 #include "Core/Core.h"
 #include "Renderer/Model.h"
+#include "Components/Component.h"
 #include <memory>
 
 namespace umbra
@@ -15,6 +16,8 @@ namespace umbra
 
 		virtual void Update(float dt); //dt = delta time
 		virtual void Draw(Renderer& renderer);
+
+		void AddComponent(std::unique_ptr<Component> component);
 
 		float GetRadius() { return (m_model) ? m_model->GetRadius() * m_transform.scale : -10000; }
 		virtual void OnCollision(Actor* other) {};
@@ -37,6 +40,8 @@ namespace umbra
 		std::string m_tag;
 
 	protected:
+		std::vector<std::unique_ptr<Component>> m_components;
+
 		bool m_destroyed = false; //a flag
 		float m_lifespan = -1.0f;
 

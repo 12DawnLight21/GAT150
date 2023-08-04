@@ -4,12 +4,14 @@
 #include "Input/InputSystem.h"
 #include "Framework/Scene.h"
 #include "Framework/Emitter.h"
+#include "Framework/Resources/ResourceManager.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Audio/AudioSystem.h"
 #include "Renderer/Font.h"
 #include "Renderer/Text.h"
 #include "Renderer/ParticleSystem.h"
+#include "Renderer/Texture.h"
 
 #include "SpaceRanch.h"
 
@@ -42,23 +44,23 @@ public:
 	umbra::vec2 m_vel;
 };
 
-//adds literally too many things at once
-/*
-void func()
+void print_arg(int count, ...) //after count is where we start the va arg
 {
-	int* p = new int[1000000000]; 
-}
+	va_list args;
 
-void funcs() //will crash your shit with a stack overflow
-{
-	int i[100000];
-	funcs();
+	va_start(args, count);
+	for (int i = 0; i < count; ++i)
+	{
+		std::cout << va_arg(args, const char*) << std::endl;
+	}
+	va_end(args);
 }
-*/
 
 int main(int argc, char* argv[])
 {
-	INFO_LOG;
+	print_arg(5, "Hello", "world", "goodbye", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "Ive got noting but sun/moon on my brain");
+
+	INFO_LOG("Hello world");
 
 	umbra::MemoryTracker::Initialize();
 
@@ -78,6 +80,10 @@ int main(int argc, char* argv[])
 	unique_ptr<SpaceRanch> game = make_unique<SpaceRanch>();
 	game->Initialize();
 
+	//create texture
+	umbra::res_t<umbra::Texture> texture = umbra::g_resources.Get<umbra::Texture>("rocket.png", umbra::g_renderer);
+
+
 	umbra::g_audioSystem.PlayOneShot("bg_music", true); //song is The Hand of the Queen from the game Rectangle Guy
 
 	vector<Star> stars; //not in a namespace so its fine
@@ -88,6 +94,8 @@ int main(int argc, char* argv[])
 
 		stars.push_back(Star(pos, vel));
 	}
+
+	
 
 
 	bool quit = false;
@@ -105,6 +113,9 @@ int main(int argc, char* argv[])
 
 		umbra::g_renderer.SetColor(0, 0, 0, 0); //sets color to black
 		umbra::g_renderer.BeginFrame(); //clears the screen, allows for less static
+
+		umbra::g_renderer.DrawTexture(texture.get(), 200.0f, 200.0f, 0.0f);
+
 
 		if (umbra::g_inputSystem.getKeyDown(SDL_SCANCODE_ESCAPE)) //if esc is pressed, end the thing
 		{
@@ -126,6 +137,8 @@ int main(int argc, char* argv[])
 		}
 
 		game->Draw(umbra::g_renderer);
+
+		umbra::g_renderer.DrawTexture(texture.get(), 200.0f, 200.0f, 0.0f);
 
 		umbra::g_renderer.EndFrame();
 	}

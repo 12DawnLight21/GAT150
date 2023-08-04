@@ -1,18 +1,20 @@
 #pragma once
+#include "Framework/Resources/Resource.h"
 #include <string>
 
 struct _TTF_Font;
 
 namespace umbra
 {
-	class Font
+	class Font : public Resource
 	{
 	public:
 		Font() = default;
 		Font(const std::string& filename, int fontSize);
 		~Font();
 
-		void Load(const std::string& filename, int fontSize);
+		virtual bool Create(std::string filename, ...) override;
+		bool Load(const std::string& filename, int fontSize);
 
 		friend class Text;
 

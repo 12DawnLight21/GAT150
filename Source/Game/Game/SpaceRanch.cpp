@@ -5,6 +5,8 @@
 
 #include "Framework/Scene.h"
 #include "Framework/Emitter.h"
+#include "Framework/Resources/ResourceManager.h"
+#include "Framework/Components/SpriteComponent.h"
 
 #include "Audio/AudioSystem.h"
 #include "Input/InputSystem.h"
@@ -15,22 +17,23 @@
 bool SpaceRanch::Initialize()
 {
 	//create font / text
-	m_font = std::make_shared<umbra::Font>("MinecraftRegular.ttf", 24);
-	m_scoreText = std::make_unique<umbra::Text>(m_font);
+	//m_font = umbra::g_resources.Get<umbra::Font>("MinecraftRegular.ttf", 24);
+
+	m_scoreText = std::make_unique<umbra::Text>(umbra::g_resources.Get<umbra::Font>("MinecraftRegular.ttf", 24));
 	m_scoreText->Create(umbra::g_renderer, "SCORE", umbra::Color{1, 0, 1, 1});
 
-	m_lifeText = std::make_unique<umbra::Text>(m_font);
+	m_lifeText = std::make_unique<umbra::Text>(umbra::g_resources.Get<umbra::Font>("MinecraftRegular.ttf", 24));
 	m_lifeText->Create(umbra::g_renderer, "LIVES", umbra::Color{1, 0, 1, 1});
 
-	m_tutorialText = std::make_unique<umbra::Text>(m_font);
-	m_tutorialText2 = std::make_unique<umbra::Text>(m_font);
+	m_tutorialText = std::make_unique<umbra::Text>(umbra::g_resources.Get<umbra::Font>("MinecraftRegular.ttf", 24));
+	m_tutorialText2 = std::make_unique<umbra::Text>(umbra::g_resources.Get<umbra::Font>("MinecraftRegular.ttf", 24));
 	m_tutorialText->Create(umbra::g_renderer, "W to thrust, A and D to turn!", umbra::Color{1, 1, 1, 1});
 	m_tutorialText2->Create(umbra::g_renderer, "Space is to shoot but ramming into enemies works in a pinch.", umbra::Color{1, 1, 1, 1});
 
-	m_titleText = std::make_unique<umbra::Text>(m_font);
+	m_titleText = std::make_unique<umbra::Text>(umbra::g_resources.Get<umbra::Font>("MinecraftRegular.ttf", 24));
 	m_titleText->Create(umbra::g_renderer, "S P A C E   R A N C H", umbra::Color{1, 1, 1, 1});
 	
-	m_gameOverText = std::make_unique<umbra::Text>(m_font);
+	m_gameOverText = std::make_unique<umbra::Text>(umbra::g_resources.Get<umbra::Font>("MinecraftRegular.ttf", 24));
 	m_gameOverText->Create(umbra::g_renderer, "GAME OVER", umbra::Color{1, 0, 0, 1});
 
 	//load audio
@@ -57,6 +60,7 @@ void SpaceRanch::Update(float dt)
 	case SpaceRanch::Title:
 		if (umbra::g_inputSystem.getKeyDown(SDL_SCANCODE_RETURN))
 		{
+
 			m_state = eState::StartGame;
 		}
 		break;
@@ -71,12 +75,19 @@ void SpaceRanch::Update(float dt)
 
 	case SpaceRanch::StartLevel:
 		m_scene->RemoveAll();
+
+		//create player
 		{
 			std::unique_ptr<Player> player = std::make_unique<Player>(12.0f, umbra::Pi, umbra::Transform{ {400, 300}, 0, 6 }, umbra::g_manager.Get("player.txt"));
 			player->m_tag = "Player";
 			player->m_game = this;
 			player->SetDamping(0.8f);
 			m_scene->Add(std::move(player));
+
+			//create components
+			std::unique_ptr<umbra::SpriteComponent> component = std::make_unique<umbra::SpriteComponent>();
+			component->m_texture = umbra::g_resources.Get<umbra::Texture>("rocket.png", umbra::g_renderer);
+			player->AddComponent(std::move(component));
 		}
 			m_state = eState::Tutorial;
 		break;
@@ -104,6 +115,11 @@ void SpaceRanch::Update(float dt)
 			enemy->m_tag = "Enemy";
 			enemy->m_game = this;
 			m_scene->Add(std::move(enemy));
+
+			//create components
+			std::unique_ptr<umbra::SpriteComponent> component = std::make_unique<umbra::SpriteComponent>();
+			component->m_texture = umbra::g_resources.Get<umbra::Texture>("rocket.png", umbra::g_renderer); //obviously change to enemy png lol
+			enemy->AddComponent(std::move(component));
 		}
 
 		if (m_powerTimer >= m_powerTime)

@@ -1,5 +1,7 @@
 #include "Renderer.h"
+#include "Texture.h"
 #include "SDL2-2.28.0/include/SDL_ttf.h"
+#include "SDL2-2.28.0/include/SDL_image.h"
 
 namespace umbra
 {
@@ -8,6 +10,7 @@ namespace umbra
 	bool Renderer::Initialize()
 	{
 		SDL_Init(SDL_INIT_VIDEO);
+		IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 		TTF_Init();
 
 		return true;
@@ -18,6 +21,7 @@ namespace umbra
 		SDL_DestroyRenderer(m_renderer);
 		SDL_DestroyWindow(m_window);
 		TTF_Quit();
+		IMG_Quit();
 	}
 	
 	void Renderer::CreateWindow(const std::string& title, int width, int height)
@@ -62,6 +66,22 @@ namespace umbra
 	void Renderer::DrawPoint(float x, float y)
 	{
 		SDL_RenderDrawPointF(m_renderer, x, y);
+	}
+
+	void Renderer::DrawTexture(Texture* texture, float x, float y, float angle)
+	{
+		vec2 size = texture->GetSize();
+
+		SDL_Rect dest;
+		dest.x = x; //float to int conversion warning
+		dest.y = y;
+		dest.w = size.x;
+		dest.h = size.y;
+
+		SDL_RenderCopyEx(m_renderer, texture->GetTexture(), nullptr, &dest, angle, nullptr, SDL_FLIP_NONE);
+
+		/*int SDL_RenderCopyEx(SDL_Renderer * renderer, SDL_Texture * texture, const SDL_Rect * dest, 
+			const SDL_Rect * dstrect, const float angle, const SDL_Point * center, const SDL_RendererFlip flip);*/
 	}
 	
 }

@@ -41,7 +41,7 @@ namespace umbra
 	{
 		if (!fileExists(path))
 		{
-			WARNING_LOG;
+			WARNING_LOG("File not loaded: " << path.string());
 			return false;
 		}
 
