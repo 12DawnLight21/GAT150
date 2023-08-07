@@ -73,10 +73,10 @@ namespace umbra
 		vec2 size = texture->GetSize();
 
 		SDL_Rect dest;
-		dest.x = x; //float to int conversion warning
-		dest.y = y;
-		dest.w = size.x;
-		dest.h = size.y;
+		dest.x = (int)(x - (size.x * 0.5f)); //float to int conversion warning
+		dest.y = (int)(y - (size.y * 0.5f));
+		dest.w = (int)size.x;
+		dest.h = (int)size.y;
 
 		SDL_RenderCopyEx(m_renderer, texture->GetTexture(), nullptr, &dest, angle, nullptr, SDL_FLIP_NONE);
 

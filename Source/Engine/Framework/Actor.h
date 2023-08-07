@@ -9,21 +9,18 @@ namespace umbra
 	class Actor
 	{
 	public:
-		Actor(const Transform transform, const std::shared_ptr<Model> model) :
-			m_transform{ transform },
-			m_model{ model } {};
+		Actor() = default;
 		Actor(const Transform& transform) : m_transform{transform} {}
 
 		virtual void Update(float dt); //dt = delta time
 		virtual void Draw(Renderer& renderer);
 
 		void AddComponent(std::unique_ptr<Component> component);
+		template<typename T>
+		T* GetComponent();
 
-		float GetRadius() { return (m_model) ? m_model->GetRadius() * m_transform.scale : -10000; }
+		float GetRadius() { return 30.0f; }
 		virtual void OnCollision(Actor* other) {};
-
-		void AddForce(const vec2& force) { m_velocity += force; };
-		void SetDamping(float damping) { m_damping = damping; };
 
 		float GetLifespan() { return m_lifespan; };
 		float SetLifespan(float lifespan) { return m_lifespan = lifespan; };
@@ -44,10 +41,17 @@ namespace umbra
 
 		bool m_destroyed = false; //a flag
 		float m_lifespan = -1.0f;
-
-		std::shared_ptr<Model> m_model;
-
-		vec2 m_velocity;
-		float m_damping = 0; //if 0, no reduction, if 1, reduces fast
 	};
+
+	template<typename T>
+	inline T* Actor::GetComponent()
+	{
+		for (auto& component : m_components)
+		{
+			T* result = dynamic_cast<T*>(component.get()); 
+			if (result) return result;
+		}
+
+		return nullptr;
+	}
 }

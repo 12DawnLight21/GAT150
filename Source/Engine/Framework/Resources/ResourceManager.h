@@ -1,5 +1,6 @@
 #pragma once
 #include "Resource.h"
+
 #include <map>
 #include <memory>
 #include <string>
@@ -25,13 +26,15 @@ namespace umbra
         }
 
         res_t<T> resource = std::make_shared<T>();
-        resource->Create(filename, args...);
+        
+        resource = std::make_shared<T>();
 
-        m_resources[filename] = resource; // binary '=' error >;/
+        resource->Create(filename, args...);
+        
+        m_resources[filename] = resource; // binary '=' error
 
         return resource;
     }
 
     extern ResourceManager g_resources;
-
-}
+    };

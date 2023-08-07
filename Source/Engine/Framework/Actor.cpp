@@ -12,8 +12,10 @@ namespace umbra
 			m_destroyed = (m_lifespan <= 0);
 		}
 
-		m_transform.position += m_velocity * dt;
-		m_velocity *= std::pow(1.0f - m_damping, dt);
+		for (auto& component : m_components)
+		{
+			component->Update(dt);
+		}
 	}
 
 	void Actor::Draw(umbra::Renderer& renderer)

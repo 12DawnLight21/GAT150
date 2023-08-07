@@ -68,4 +68,9 @@ namespace umbra
 
 		return m_radius;
 	}
+
+	bool Model::Create(std::string filename, ...)
+	{
+		return Load(filename);
+	}
 }

@@ -6,7 +6,7 @@ struct SDL_Texture;
 
 namespace umbra
 {
-	class Texture : Resource
+	class Texture : public Resource
 	{
 	public:
 		Texture() = default;

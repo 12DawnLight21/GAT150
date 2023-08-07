@@ -41,7 +41,7 @@ void Enemy::Update(float dt)
 
 		//create weapon
 		umbra::Transform transform{ m_transform.position, m_transform.rotation, 2}; //changes bullet size
-		std::unique_ptr<Projectile> projectile = std::make_unique<Projectile>(400.0f, transform, m_model);
+		std::unique_ptr<Projectile> projectile = std::make_unique<Projectile>(400.0f, transform);
 		projectile->m_tag = "EnemyBullet";
 
 		umbra::g_audioSystem.PlayOneShot("e_shoot");

@@ -4,8 +4,8 @@
 class Health : public umbra::Actor
 {
 	public:
-		Health(const umbra::Transform transform, const std::shared_ptr<umbra::Model> model) :
-			Actor{ transform, model }
+		Health(const umbra::Transform transform) :
+			Actor{ transform }
 		{};
 
 		static int getValue(int min, int max)

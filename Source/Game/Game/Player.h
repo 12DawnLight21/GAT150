@@ -4,8 +4,8 @@
 class Player : public umbra::Actor
 {
 public:
-	Player(float speed, float turnRate, const umbra::Transform transform, const std::shared_ptr<umbra::Model> model) :
-		Actor{ transform, model },
+	Player(float speed, float turnRate, const umbra::Transform transform) :
+		Actor{ transform },
 		m_speed{speed},
 		m_turnRate{turnRate}
 	{};

@@ -81,8 +81,8 @@ int main(int argc, char* argv[])
 	game->Initialize();
 
 	//create texture
-	umbra::res_t<umbra::Texture> texture = umbra::g_resources.Get<umbra::Texture>("rocket.png", umbra::g_renderer);
-
+	//umbra::res_t<umbra::Texture> texture = umbra::g_resources.Get<umbra::Texture>("playership.png", umbra::g_renderer);
+	umbra::res_t<umbra::Texture> texture = umbra::g_resources.Get<umbra::Texture>("playership.png", umbra::g_renderer);
 
 	umbra::g_audioSystem.PlayOneShot("bg_music", true); //song is The Hand of the Queen from the game Rectangle Guy
 
@@ -138,7 +138,7 @@ int main(int argc, char* argv[])
 
 		game->Draw(umbra::g_renderer);
 
-		umbra::g_renderer.DrawTexture(texture.get(), 200.0f, 200.0f, 0.0f);
+		//umbra::g_renderer.DrawTexture(texture.get(), 200.0f, 200.0f, 0.0f);
 
 		umbra::g_renderer.EndFrame();
 	}

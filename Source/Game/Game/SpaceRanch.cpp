@@ -7,6 +7,7 @@
 #include "Framework/Emitter.h"
 #include "Framework/Resources/ResourceManager.h"
 #include "Framework/Components/SpriteComponent.h"
+#include "Framework/Components/EnginePhysicsComponent.h"
 
 #include "Audio/AudioSystem.h"
 #include "Input/InputSystem.h"
@@ -78,16 +79,18 @@ void SpaceRanch::Update(float dt)
 
 		//create player
 		{
-			std::unique_ptr<Player> player = std::make_unique<Player>(12.0f, umbra::Pi, umbra::Transform{ {400, 300}, 0, 6 }, umbra::g_manager.Get("player.txt"));
+			std::unique_ptr<Player> player = std::make_unique<Player>(12.0f, umbra::Pi, umbra::Transform{ {400, 300}, 0, 6 });
 			player->m_tag = "Player";
 			player->m_game = this;
-			player->SetDamping(0.8f);
 			m_scene->Add(std::move(player));
 
 			//create components
 			std::unique_ptr<umbra::SpriteComponent> component = std::make_unique<umbra::SpriteComponent>();
-			component->m_texture = umbra::g_resources.Get<umbra::Texture>("rocket.png", umbra::g_renderer);
+			component->m_texture = umbra::g_resources.Get<umbra::Texture>("playership.png", umbra::g_renderer);
 			player->AddComponent(std::move(component));
+			
+			auto physicsComponent = std::make_unique<umbra::EnginePhysicsComponent>();
+			player->AddComponent(std::move(physicsComponent));
 		}
 			m_state = eState::Tutorial;
 		break;
@@ -111,7 +114,7 @@ void SpaceRanch::Update(float dt)
 		if (m_spawnTimer >= m_spawnTime)
 		{
 			m_spawnTimer = 0;
-			std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(umbra::randomf(75.0f, 150.0f), umbra::Pi, umbra::Transform{ { umbra::random(800), umbra::random(600)}, umbra::randomf(umbra::TwoPi), 6 }, umbra::g_manager.Get("enemy.txt"));
+			std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(umbra::randomf(75.0f, 150.0f), umbra::Pi, umbra::Transform{ { umbra::random(800), umbra::random(600)}, umbra::randomf(umbra::TwoPi), 6 });
 			enemy->m_tag = "Enemy";
 			enemy->m_game = this;
 			m_scene->Add(std::move(enemy));
@@ -125,7 +128,7 @@ void SpaceRanch::Update(float dt)
 		if (m_powerTimer >= m_powerTime)
 		{
 			m_powerTimer = 0;
-			std::unique_ptr<Health> power = std::make_unique<Health>(umbra::Transform{ { umbra::random(800), umbra::random(600)}, umbra::randomf(umbra::TwoPi), 6 }, umbra::g_manager.Get("health.txt"));
+			std::unique_ptr<Health> power = std::make_unique<Health>(umbra::Transform{ { umbra::random(800), umbra::random(600)}, umbra::randomf(umbra::TwoPi), 6 });
 			power->m_tag = "Power";
 			power->m_game = this;
 			m_scene->Add(std::move(power));

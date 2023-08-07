@@ -1,11 +1,12 @@
 #pragma once
 #include "Core/Core.h"
 #include "Renderer.h" 
+#include "Framework/Resources/Resource.h"
 #include <vector>
 
 namespace umbra
 {
-	class Model //draws points with lines and lines with points
+	class Model : public Resource //draws points with lines and lines with points
 	{
 	public:
 		Model() = default;
@@ -24,5 +25,8 @@ namespace umbra
 		//color class
 		Color m_color;
 		float m_radius = 0;
+
+		// Inherited via Resource
+		virtual bool Create(std::string filename, ...) override;
 	};
 }

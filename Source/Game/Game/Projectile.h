@@ -5,8 +5,8 @@
 class Projectile : public umbra::Actor
 {
 public:
-	Projectile(float speed, const umbra::Transform transform, const std::shared_ptr<umbra::Model> model) :
-		Actor{ transform, model },
+	Projectile(float speed, const umbra::Transform transform) :
+		Actor{ transform },
 		m_speed{ speed } 
 	{
 		m_lifespan = 2.0f;
