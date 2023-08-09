@@ -1,19 +1,14 @@
-#include "Core/Core.h" //linked to a bunch of directories
-#include "Renderer/Renderer.h"
-#include "Renderer/ModelManager.h"
-#include "Input/InputSystem.h"
-#include "Framework/Scene.h"
-#include "Framework/Emitter.h"
-#include "Framework/Resources/ResourceManager.h"
+#include "SpaceRanch.h"
 #include "Player.h"
 #include "Enemy.h"
-#include "Audio/AudioSystem.h"
-#include "Renderer/Font.h"
-#include "Renderer/Text.h"
-#include "Renderer/ParticleSystem.h"
-#include "Renderer/Texture.h"
 
-#include "SpaceRanch.h"
+#include "Core/Core.h"
+#include "Framework/Framework.h"
+#include "Renderer/Renderer.h"
+
+#include "Input/InputSystem.h"
+
+#include "Audio/AudioSystem.h"
 
 #include <thread>
 #include <iostream> //searches the system instead
@@ -40,10 +35,11 @@ public:
 	}
 
 public:
-	umbra::vec2 m_pos;
-	umbra::vec2 m_vel;
+	umbra::vec3 m_pos;
+	umbra::vec3 m_vel;
 };
 
+/*
 void print_arg(int count, ...) //after count is where we start the va arg
 {
 	va_list args;
@@ -55,20 +51,38 @@ void print_arg(int count, ...) //after count is where we start the va arg
 	}
 	va_end(args);
 }
+void zero(int v) //pass by copy or pass by value
+{
+	//makes a deep copy of the value
+	v = 0;
+}
+void zero(int* v) //pass by pointer
+{
+	*v = 0; //use & to pass reference OF value
+}
+void zero_ref(int& v) //pass by reference (used if answer COULD be NULL)
+{
+	//if literal value, needs to take in a const int&
+	v = 0;
+}
+
+void print(const std::string& s) //if we dont change value, make it const ;3
+{
+	//if we took a value, it would copy the og value first
+	cout << s << endl;
+}
+*/
 
 int main(int argc, char* argv[])
 {
-	print_arg(5, "Hello", "world", "goodbye", "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "Ive got noting but sun/moon on my brain");
 
-	INFO_LOG("Hello world");
+	//click on things and press f12 to see what it is / does (i think ctrl-click does the same thing)
+	INFO_LOG("Initializing Engine...");
 
 	umbra::MemoryTracker::Initialize();
 
 	umbra::seedRandom((unsigned int)time(nullptr));
 	umbra::setFilePath("assets");
-
-	//int* p = new int;
-	//delete p;
 
 	//our window setup
 	umbra::g_renderer.Initialize();
@@ -80,23 +94,16 @@ int main(int argc, char* argv[])
 	unique_ptr<SpaceRanch> game = make_unique<SpaceRanch>();
 	game->Initialize();
 
-	//create texture
-	//umbra::res_t<umbra::Texture> texture = umbra::g_resources.Get<umbra::Texture>("playership.png", umbra::g_renderer);
-	umbra::res_t<umbra::Texture> texture = umbra::g_resources.Get<umbra::Texture>("playership.png", umbra::g_renderer);
-
 	umbra::g_audioSystem.PlayOneShot("bg_music", true); //song is The Hand of the Queen from the game Rectangle Guy
 
-	vector<Star> stars; //not in a namespace so its fine
-	for (int i = 0; i < 500; i++) //makes the star background ;3
+	vector<Star> stars; 
+	for (int i = 0; i < 500; i++)
 	{
 		umbra::Vector2 pos(umbra::Vector2(umbra::random(umbra::g_renderer.GetWidth()), umbra::random(umbra::g_renderer.GetHeight())));
 		umbra::Vector2 vel(umbra::randomf(1, 8), 0.0f);
 
 		stars.push_back(Star(pos, vel));
 	}
-
-	
-
 
 	bool quit = false;
 	// Main GAME LOOP
@@ -114,9 +121,6 @@ int main(int argc, char* argv[])
 		umbra::g_renderer.SetColor(0, 0, 0, 0); //sets color to black
 		umbra::g_renderer.BeginFrame(); //clears the screen, allows for less static
 
-		umbra::g_renderer.DrawTexture(texture.get(), 200.0f, 200.0f, 0.0f);
-
-
 		if (umbra::g_inputSystem.getKeyDown(SDL_SCANCODE_ESCAPE)) //if esc is pressed, end the thing
 		{
 			quit = true;
@@ -125,7 +129,7 @@ int main(int argc, char* argv[])
 		//update draw
 		umbra::Vector2 vel(1.0f, 0.3f);
 
-		for (auto& star : stars) //literally just made space screensaver
+		for (auto& star : stars) 
 		{
 			star.Update();
 
@@ -137,8 +141,6 @@ int main(int argc, char* argv[])
 		}
 
 		game->Draw(umbra::g_renderer);
-
-		//umbra::g_renderer.DrawTexture(texture.get(), 200.0f, 200.0f, 0.0f);
 
 		umbra::g_renderer.EndFrame();
 	}

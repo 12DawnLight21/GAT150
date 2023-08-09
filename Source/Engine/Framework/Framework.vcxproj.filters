@@ -49,6 +49,9 @@
     <ClInclude Include="Components\EnginePhysicsComponent.h">
       <Filter>Source\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Framework.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp">
@@ -67,10 +70,10 @@
       <Filter>Source\Components</Filter>
     </ClCompile>
     <ClCompile Include="Components\ModelRenderComponent.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source\Components</Filter>
     </ClCompile>
     <ClCompile Include="Components\EnginePhysicsComponent.cpp">
-      <Filter>Source</Filter>
+      <Filter>Source\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

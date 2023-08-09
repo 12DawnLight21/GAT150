@@ -1,14 +1,13 @@
 #pragma once
 #include "Core/Core.h"
-#include "Renderer.h"
 
 namespace umbra
 {
 	struct ParticleData
 	{
-		vec2 position;
-		vec2 prevPosition;
-		vec2 velocity;
+		vec3 position;
+		vec3 prevPosition;
+		vec3 velocity;
 
 		float damping = 0;
 
@@ -25,7 +24,7 @@ namespace umbra
 
 		void Initialize(const ParticleData& data) { m_data = data; m_isActive = true; }
 		void Update(float dt);
-		void Draw(Renderer& renderer);
+		void Draw(class Renderer& renderer);
 
 		friend class ParticleSystem;
 

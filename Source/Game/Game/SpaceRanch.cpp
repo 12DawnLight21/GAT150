@@ -3,23 +3,17 @@
 #include "Enemy.h"
 #include "Health.h"
 
-#include "Framework/Scene.h"
-#include "Framework/Emitter.h"
-#include "Framework/Resources/ResourceManager.h"
-#include "Framework/Components/SpriteComponent.h"
-#include "Framework/Components/EnginePhysicsComponent.h"
+#include "Framework/Framework.h"
+#include "Renderer/Renderer.h"
+#include "Core/Core.h"
 
 #include "Audio/AudioSystem.h"
 #include "Input/InputSystem.h"
-#include "Renderer/Renderer.h"
-#include "Renderer/ModelManager.h"
-#include "Renderer/ParticleSystem.h"
+
 
 bool SpaceRanch::Initialize()
 {
 	//create font / text
-	//m_font = umbra::g_resources.Get<umbra::Font>("MinecraftRegular.ttf", 24);
-
 	m_scoreText = std::make_unique<umbra::Text>(umbra::g_resources.Get<umbra::Font>("MinecraftRegular.ttf", 24));
 	m_scoreText->Create(umbra::g_renderer, "SCORE", umbra::Color{1, 0, 1, 1});
 
@@ -85,8 +79,8 @@ void SpaceRanch::Update(float dt)
 			m_scene->Add(std::move(player));
 
 			//create components
-			std::unique_ptr<umbra::SpriteComponent> component = std::make_unique<umbra::SpriteComponent>();
-			component->m_texture = umbra::g_resources.Get<umbra::Texture>("playership.png", umbra::g_renderer);
+			std::unique_ptr<umbra::ModelRenderComponent> component = std::make_unique<umbra::ModelRenderComponent>();
+			component->m_model = umbra::g_resources.Get<umbra::Model>("player.txt", umbra::g_renderer);
 			player->AddComponent(std::move(component));
 			
 			auto physicsComponent = std::make_unique<umbra::EnginePhysicsComponent>();
@@ -121,7 +115,7 @@ void SpaceRanch::Update(float dt)
 
 			//create components
 			std::unique_ptr<umbra::SpriteComponent> component = std::make_unique<umbra::SpriteComponent>();
-			component->m_texture = umbra::g_resources.Get<umbra::Texture>("rocket.png", umbra::g_renderer); //obviously change to enemy png lol
+			component->m_texture = umbra::g_resources.Get<umbra::Texture>("enemy.txt", umbra::g_renderer); //obviously change to enemy png lol
 			enemy->AddComponent(std::move(component));
 		}
 

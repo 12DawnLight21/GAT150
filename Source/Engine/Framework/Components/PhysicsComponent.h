@@ -1,17 +1,17 @@
 #pragma once
 #include "Component.h"
-#include "Core/Vector2.h"
+#include "Core/Math/Vector2.h"
 
 namespace umbra
 {
 	class PhysicsComponent : public Component
 	{
 	public:
-		virtual void ApplyForce(const vec2& force) = 0;
+		virtual void ApplyForce(const vec3& force) = 0;
 
 	public:
-		vec2 m_velocity;
-		vec2 m_acceleration;
+		vec3 m_velocity;
+		vec3 m_acceleration;
 		float m_mass = 1.0f;
 		float m_damping = 0;
 	};

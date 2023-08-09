@@ -70,7 +70,7 @@ namespace umbra
 
 	void Renderer::DrawTexture(Texture* texture, float x, float y, float angle)
 	{
-		vec2 size = texture->GetSize();
+		vec3 size = texture->GetSize();
 
 		SDL_Rect dest;
 		dest.x = (int)(x - (size.x * 0.5f)); //float to int conversion warning
@@ -80,8 +80,6 @@ namespace umbra
 
 		SDL_RenderCopyEx(m_renderer, texture->GetTexture(), nullptr, &dest, angle, nullptr, SDL_FLIP_NONE);
 
-		/*int SDL_RenderCopyEx(SDL_Renderer * renderer, SDL_Texture * texture, const SDL_Rect * dest, 
-			const SDL_Rect * dstrect, const float angle, const SDL_Point * center, const SDL_RendererFlip flip);*/
 	}
 	
 }

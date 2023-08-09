@@ -42,7 +42,7 @@ namespace umbra
         return true;
     }
 
-    vec2 Texture::GetSize()
+    vec3 Texture::GetSize()
     {
         //assert if null??? 
         //ASSERT_LOG(!m_texture, "m_texture is NULL.");

@@ -12,13 +12,13 @@ void Enemy::Update(float dt)
 {
 	Actor::Update(dt);
 
-	umbra::vec2 forward = umbra::vec2(0, -1).Rotate(m_transform.rotation);
+	umbra::vec3 forward = umbra::vec2(0, -1).Rotate(m_transform.rotation);
 	Player* player = m_scene->GetActor<Player>(); //T* is replaced by player 
 	if (player)
 	{
-		umbra::vec2 direction = player->m_transform.position - m_transform.position;
+		umbra::vec3 direction = player->m_transform.position - m_transform.position;
 
-		float turnAngle = umbra::vec2::SignedAngle(forward, direction.Normalized());
+		float turnAngle = umbra::vec3::SignedAngle(forward, direction.Normalized());
 
 		m_transform.rotation += turnAngle * dt;
 

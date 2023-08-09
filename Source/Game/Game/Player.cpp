@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Health.h"
 #include "Projectile.h"
+
 #include "Framework/Scene.h"
 #include "Framework/Resources/ResourceManager.h"
 #include "Framework/Components/SpriteComponent.h"
@@ -24,7 +25,7 @@ void Player::Update(float dt)
 	float thrust = 0;
 	if (umbra::g_inputSystem.getKeyDown(SDL_SCANCODE_W)) thrust = 1;
 
-	umbra::vec2 forward = umbra::vec2(0, -1).Rotate(m_transform.rotation);
+	umbra::vec3 forward = umbra::vec2(0, -1).Rotate(m_transform.rotation);
 
 	auto physicsComponent = GetComponent<umbra::PhysicsComponent>();
 	physicsComponent->ApplyForce(forward * m_speed * thrust);
