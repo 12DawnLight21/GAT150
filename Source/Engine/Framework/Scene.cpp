@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "Framework/Framework.h"
 
 namespace umbra
 { 
@@ -15,15 +16,18 @@ namespace umbra
 		//check collisions
 		for (auto iter1 = m_actors.begin(); iter1 != m_actors.end(); iter1++)
 		{
-			for (auto iter2 = std::next(iter1, 1); iter2 != m_actors.end(); iter2++) //helps prevent duplicate checks
-			{ //if distance >sum of both radius
-				float distance = (*iter1)->m_transform.position.Distance((*iter2)->m_transform.position);
-				float radius = (*iter1)->GetRadius() + (*iter2)->GetRadius();
+			for (auto iter2 = std::next(iter1, 1); iter2 != m_actors.end(); iter2++)
+			{
+				///new vvvvvv
+				CollisionComponent* collision1 = (*iter1)->GetComponent<CollisionComponent>();
+				CollisionComponent* collision2 = (*iter2)->GetComponent<CollisionComponent>();
 
-				if (distance <= radius)
+				if (!collision1 || !collision2) continue;
+
+				if (collision1->CheckCollision(collision2))
+					/// ^^^^^
 				{
-					//boom
-					(*iter1)->OnCollision(iter2->get()); //gets the raw pointer from iter 2 or i guess the object?
+					(*iter1)->OnCollision(iter2->get());
 					(*iter2)->OnCollision(iter1->get());
 				}
 			}

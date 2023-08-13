@@ -4,6 +4,8 @@
 
 #include "random.h" //"" for same directory
 #include "FileIO.h" 
+#include "Json.h"
+
 #include "memory.h"
 #include "Time.h"
 #include "Logger.h"

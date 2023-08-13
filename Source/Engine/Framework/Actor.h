@@ -6,11 +6,14 @@
 
 namespace umbra
 {
-	class Actor
+	class Actor : public Object
 	{
 	public:
 		Actor() = default;
 		Actor(const Transform& transform) : m_transform{transform} {}
+
+		virtual bool Initialize();
+		virtual void OnDestroy();
 
 		virtual void Update(float dt); //dt = delta time
 		virtual void Draw(Renderer& renderer);

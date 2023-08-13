@@ -10,54 +10,68 @@ namespace umbra
 	class Matrix33
 	{
 	public:
-		vec2 rows[3];
+		vec3 rows[3];
 		// [row][column]
-		// rows[0] = vec2{ 0, 0 }
-		// rows[1] = vec2{ 0, 0 }
+		// rows[0] = vec3{ 0, 0 }
+		// rows[1] = vec3{ 0, 0 }
 
 		Matrix33() = default;
-		Matrix33(const vec2& row1, const vec2& row2, const vec2& row3)
+		Matrix33(const vec3& row1, const vec3& row2, const vec3& row3)
 		{
 			rows[0] = row1;
 			rows[1] = row2;
 			rows[2] = row3;
 		}
 
-		vec2  operator [] (size_t index) const { return rows[index]; }
-		vec2& operator [] (size_t index) { return rows[index]; }
+		vec3  operator [] (size_t index) const { return rows[index]; }
+		vec3& operator [] (size_t index) { return rows[index]; }
 
 		vec2 operator * (const vec2& v);
 		Matrix33 operator * (const Matrix33& mx);
 
-		static Matrix33 CreateScale(const vec2& scale);
+		static Matrix33 CreateTranslation(const vec2& translation);
+		static Matrix33 CreateScale(const vec3& scale);
 		static Matrix33 CreateScale(float scale);
 		static Matrix33 CreateRotation(float radians);
 
 		static Matrix33 CreateIdentity();
+
+		vec2 GetTranslation() const;
+		float GetRotation() const;
+		vec2 GetScale() const;
 	};
 
 	inline vec2 Matrix33::operator*(const vec2& v)
 	{
-		// | a , b |   | x |
-		// | c , d | * | y |
+		// | a , b , c |   | x |
+		// | d , e , f | * | y |
+		// | g , h , i |   | 1 |
 
 		vec2 result;
-		result.x = rows[0][0] * v.x + rows[0][1] * v.y;
-		result.y = rows[1][0] * v.x + rows[1][1] * v.y;
+		result.x = rows[0][0] * v.x + rows[0][1] * v.y + rows[0][2];
+		result.y = rows[1][0] * v.x + rows[1][1] * v.y + rows[1][2];
 
 		return result;
 	}
 
 	inline Matrix33 Matrix33::operator*(const Matrix33& mx)
 	{
-		// | a b |   | e f |
-		// | c d | * | g h |
-		Matrix33 result;
-		result[0][0] = rows[0][0] * mx[0][0] + rows[0][1] * mx[1][0]; //ae + bg
-		result[0][1] = rows[0][0] * mx[0][1] + rows[0][1] * mx[1][1]; //af + bh
+		// | a b c |   | j k l |
+		// | d e f | * | m n o |
+		// | g h i |   | q r s |
 
-		result[1][0] = rows[1][0] * mx[0][0] + rows[1][1] * mx[1][0]; //ce + dg
-		result[1][1] = rows[1][0] * mx[0][1] + rows[1][1] * mx[1][1]; //cf + dh
+		Matrix33 result;
+		result[0][0] = rows[0][0] * mx[0][0] + rows[0][1] * mx[0][1] + rows[0][2] * mx[0][2]; //aj + bm + cq
+		result[0][1] = rows[0][0] * mx[1][0] + rows[0][1] * mx[1][1] + rows[0][2] * mx[1][2]; //ak + bn + cr
+		result[0][2] = rows[0][0] * mx[2][0] + rows[0][1] * mx[2][1] + rows[0][2] * mx[2][2]; //al + bo + cs
+
+		result[1][0] = rows[1][0] * mx[0][0] + rows[1][1] * mx[0][1] + rows[1][2] * mx[0][2]; //dj + em + fq
+		result[1][1] = rows[1][0] * mx[1][0] + rows[1][1] * mx[1][1] + rows[1][2] * mx[1][2]; //dk + en + fr
+		result[1][2] = rows[1][0] * mx[2][0] + rows[1][1] * mx[2][1] + rows[1][2] * mx[2][2]; //dl + eo + fs
+
+		result[2][0] = rows[2][0] * mx[0][0] + rows[2][1] * mx[0][1] + rows[2][2] * mx[0][2]; //gj + hm + iq
+		result[2][1] = rows[2][0] * mx[1][0] + rows[2][1] * mx[1][1] + rows[2][2] * mx[1][2]; //gk + hn + ir
+		result[2][2] = rows[2][0] * mx[2][0] + rows[2][1] * mx[2][1] + rows[2][2] * mx[2][2]; //gl + ho + is
 
 		return Matrix33();
 	}
@@ -72,8 +86,12 @@ namespace umbra
 		};
 	}
 
-	inline Matrix33 Matrix33::CreateScale(const vec2& scale)
+	inline Matrix33 Matrix33::CreateScale(const vec3& scale)
 	{
+		// | sx 0 0 |
+		// | 0 sy 0 |
+		// | 0  0 1 |
+
 		Matrix33 mx = CreateIdentity();
 		mx[0][0] = scale.x;
 		mx[1][1] = scale.y;
@@ -83,6 +101,10 @@ namespace umbra
 
 	inline Matrix33 Matrix33::CreateScale(float scale)
 	{
+		// | s 0 0 |
+		// | 0 s 0 |
+		// | 0 0 1 |
+
 		Matrix33 mx = CreateIdentity();
 		mx[0][0] = scale;
 		mx[1][1] = scale;
@@ -92,6 +114,10 @@ namespace umbra
 
 	inline Matrix33 Matrix33::CreateRotation(float radians)
 	{
+		// | c -s 0 |
+		// | s  c 0 |
+		// | 0  0 1 |
+
 		Matrix33 mx = CreateIdentity();
 
 		float c = cos(radians);
@@ -101,6 +127,39 @@ namespace umbra
 		mx[1][0] = s; mx[1][1] = c;
 
 		return mx;
+	}
+
+	inline Matrix33 Matrix33::CreateTranslation(const vec2& translation)
+	{
+		// | 1 0 x |
+		// | 0 1 y |
+		// | 0 0 1 |
+
+		Matrix33 mx = CreateIdentity();
+
+		mx[0][2] = translation.x;
+		mx[1][2] = translation.y;
+
+		return mx;
+	}
+	
+	inline vec2 Matrix33::GetTranslation() const
+	{
+		return { rows[0][2], rows[1][2] };
+	}
+
+	inline float Matrix33::GetRotation() const
+	{
+		return std::atan2(rows[1][0], rows[0][0]);
+	}
+
+	inline vec2 Matrix33::GetScale() const
+	{
+		//extracts values from our matrix
+		vec2 x = { rows[0][0], rows[0][1]};
+		vec2 y = { rows[1][0], rows[1][1]};
+
+		return { x.Length(), y.Length() };
 	}
 
 	using mat3 = Matrix33;

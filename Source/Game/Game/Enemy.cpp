@@ -5,20 +5,38 @@
 #include "Input/InputSystem.h"
 #include "Renderer/Renderer.h"
 #include "Framework/Emitter.h"
+#include "Framework/Framework.h"
+#include "Audio/AudioSystem.h"
 
 #include "Game/SpaceRanch.h"
+
+bool Enemy::Initialize()
+{
+	auto collisionComponent = GetComponent<umbra::CollisionComponent>();
+	if (collisionComponent)
+	{
+		auto renderComponent = GetComponent<umbra::RenderComponent>();
+		if (renderComponent)
+		{
+			float scale = m_transform.scale;
+			collisionComponent->m_radius = renderComponent->GetRadius() * scale;
+		}
+	}
+
+	return true;
+}
 
 void Enemy::Update(float dt)
 {
 	Actor::Update(dt);
 
-	umbra::vec3 forward = umbra::vec2(0, -1).Rotate(m_transform.rotation);
+	umbra::vec2 forward = umbra::vec2(0, -1).Rotate(m_transform.rotation);
 	Player* player = m_scene->GetActor<Player>(); //T* is replaced by player 
 	if (player)
 	{
-		umbra::vec3 direction = player->m_transform.position - m_transform.position;
+		umbra::vec2 direction = player->m_transform.position - m_transform.position;
 
-		float turnAngle = umbra::vec3::SignedAngle(forward, direction.Normalized());
+		float turnAngle = umbra::vec2::SignedAngle(forward, direction.Normalized());
 
 		m_transform.rotation += turnAngle * dt;
 

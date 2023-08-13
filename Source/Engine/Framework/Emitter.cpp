@@ -46,7 +46,7 @@ namespace umbra
 			data.color = m_data.color;
 
 			float angle = m_transform.rotation + m_data.angle + randomf(-m_data.angleRange, m_data.angleRange);
-			vec3 direction = vec2{ 0, -1 }.Rotate(angle);
+			vec2 direction = vec2{ 0, -1 }.Rotate(angle);
 			data.velocity = direction * randomf(m_data.speedMin, m_data.speedMax);
 			data.damping = m_data.damping;
 

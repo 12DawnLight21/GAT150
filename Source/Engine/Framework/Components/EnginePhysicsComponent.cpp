@@ -9,7 +9,7 @@ namespace umbra
 		m_velocity *= std::pow(1.0f - m_damping, dt);
 	}
 
-	void EnginePhysicsComponent::ApplyForce(const vec3& force)
+	void EnginePhysicsComponent::ApplyForce(const vec2& force)
 	{
 		m_velocity += force;
 	}

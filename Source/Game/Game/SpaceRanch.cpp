@@ -70,22 +70,31 @@ void SpaceRanch::Update(float dt)
 
 	case SpaceRanch::StartLevel:
 		m_scene->RemoveAll();
-
-		//create player
 		{
-			std::unique_ptr<Player> player = std::make_unique<Player>(12.0f, umbra::Pi, umbra::Transform{ {400, 300}, 0, 6 });
+			//Create Player
+			m_scene->RemoveAll();
+			auto player = std::make_unique<Player>(10.0f, umbra::Pi, umbra::Transform{ {400, 300}, 0, 1 });
 			player->m_tag = "Player";
 			player->m_game = this;
-			m_scene->Add(std::move(player));
 
-			//create components
-			std::unique_ptr<umbra::ModelRenderComponent> component = std::make_unique<umbra::ModelRenderComponent>();
-			component->m_model = umbra::g_resources.Get<umbra::Model>("player.txt", umbra::g_renderer);
-			player->AddComponent(std::move(component));
-			
+			//create Components
+			auto renderComponent = std::make_unique<umbra::SpriteComponent>();
+			renderComponent->m_texture = umbra::g_resources.Get<umbra::Texture>("playership.png", umbra::g_renderer);
+			player->AddComponent(std::move(renderComponent));
+
+			//adding physics
 			auto physicsComponent = std::make_unique<umbra::EnginePhysicsComponent>();
+			physicsComponent->m_damping = 0.5f;
 			player->AddComponent(std::move(physicsComponent));
+
+			auto collisionComponent = std::make_unique<umbra::CircleCollisionComponent>();
+			collisionComponent->m_radius = 30.0f;
+			player->AddComponent(std::move(collisionComponent));
+
+			player->Initialize();
+			m_scene->Add(std::move(player));
 		}
+
 			m_state = eState::Tutorial;
 		break;
 
@@ -115,8 +124,15 @@ void SpaceRanch::Update(float dt)
 
 			//create components
 			std::unique_ptr<umbra::SpriteComponent> component = std::make_unique<umbra::SpriteComponent>();
-			component->m_texture = umbra::g_resources.Get<umbra::Texture>("enemy.txt", umbra::g_renderer); //obviously change to enemy png lol
-			enemy->AddComponent(std::move(component));
+			component->m_texture = umbra::g_resources.Get<umbra::Texture>("playership.png", umbra::g_renderer); //obviously change to enemy png lol
+			enemy->AddComponent(std::move(component));	
+
+			auto collisionComponent = std::make_unique<umbra::CircleCollisionComponent>();
+			collisionComponent->m_radius = 30.0f;
+			enemy->AddComponent(std::move(collisionComponent));
+
+			enemy->Initialize();
+			m_scene->Add(std::move(enemy));
 		}
 
 		if (m_powerTimer >= m_powerTime)

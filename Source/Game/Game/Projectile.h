@@ -1,6 +1,5 @@
 #pragma once
 #include "Framework/Actor.h"
-#include "Audio/AudioSystem.h"
 
 class Projectile : public umbra::Actor
 {
@@ -12,8 +11,9 @@ public:
 		m_lifespan = 2.0f;
 	};
 
+	bool Initialize() override;
+
 	void Update(float dt) override;
-	//void PlaySound(umbra::AudioSystem audio);
 
 	void OnCollision(Actor* other) override;
 

@@ -11,10 +11,10 @@ namespace umbra
 	{
 	public:
 		Model() = default;
-		Model(const std::vector<vec3>& points) : m_points{ points } {};
+		Model(const std::vector<vec2>& points) : m_points{ points } {};
 
 		bool Load(const std::string& filename);
-		void Draw(Renderer& renderer, const vec3& position, float rotation, float scale);
+		void Draw(Renderer& renderer, const vec2& position, float rotation, float scale);
 		void Draw(Renderer& renderer, const Transform& transform);
 
 		//sphere collision
@@ -22,7 +22,7 @@ namespace umbra
 
 		virtual bool Create(std::string filename, ...) override;
 	private:
-		std::vector<vec3> m_points; //hidden array of points ; vec2 = Vector2 alias
+		std::vector<vec2> m_points; //hidden array of points ; vec2 = Vector2 alias
 		
 		//color class
 		Color m_color;

@@ -15,7 +15,7 @@ namespace umbra
 		virtual bool Create(std::string filename, ...) override;
 
 		bool Load(const std::string& filename, class Renderer& renderer);
-		vec3 GetSize();
+		vec2 GetSize();
 
 		SDL_Texture* GetTexture() { return m_texture; }
 

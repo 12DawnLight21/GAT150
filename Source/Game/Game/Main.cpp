@@ -35,8 +35,8 @@ public:
 	}
 
 public:
-	umbra::vec3 m_pos;
-	umbra::vec3 m_vel;
+	umbra::vec2 m_pos;
+	umbra::vec2 m_vel;
 };
 
 /*
@@ -75,7 +75,6 @@ void print(const std::string& s) //if we dont change value, make it const ;3
 
 int main(int argc, char* argv[])
 {
-
 	//click on things and press f12 to see what it is / does (i think ctrl-click does the same thing)
 	INFO_LOG("Initializing Engine...");
 
@@ -83,6 +82,29 @@ int main(int argc, char* argv[])
 
 	umbra::seedRandom((unsigned int)time(nullptr));
 	umbra::setFilePath("assets");
+
+	//json file reading
+	rapidjson::Document document;
+	umbra::Json::Load("json.txt", document);
+	int i1;
+	umbra::Json::Read(document, "integer1", i1);
+	std::cout << i1 << std::endl;
+	int i2;
+	umbra::Json::Read(document, "integer2", i2);
+	std::cout << i2 << std::endl;
+
+	std::string str;
+	umbra::Json::Read(document, "hello world", str);
+	std::cout << str << std::endl;
+	bool b;
+	umbra::Json::Read(document, "true", b);
+	std::cout << b << std::endl;
+	float f;
+	umbra::Json::Read(document, "3.1416f", f);
+	std::cout << f << std::endl;
+	umbra::vec2 v2;
+	umbra::Json::Read(document, "[100.0, 200.0]", v2);
+	std::cout << v2 << std::endl;
 
 	//our window setup
 	umbra::g_renderer.Initialize();

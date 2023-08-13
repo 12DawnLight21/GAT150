@@ -5,9 +5,9 @@ namespace umbra
 {
 	struct ParticleData
 	{
-		vec3 position;
-		vec3 prevPosition;
-		vec3 velocity;
+		vec2 position;
+		vec2 prevPosition;
+		vec2 velocity;
 
 		float damping = 0;
 
