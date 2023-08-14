@@ -1,13 +1,17 @@
 #pragma once
 #include "Resource.h"
+#include "Framework/Singleton.h"
 
 #include <map>
 #include <memory>
 #include <string>
 
+//macro // type = resource type we're getting // filename = name of file // ... = any other thing we need
+#define GET_RESOURCE(type, filename, ...) umbra::ResourceManager::Instance().Get<type>(filename, __VA_ARGS__)
+
 namespace umbra
 {
-    class ResourceManager
+    class ResourceManager : public Singleton<ResourceManager>
     {
     public:
         template<typename T, typename ... TArgs>
@@ -31,10 +35,8 @@ namespace umbra
 
         resource->Create(filename, args...);
         
-        m_resources[filename] = resource; // binary '=' error
+        m_resources[filename] = resource;
 
         return resource;
     }
-
-    extern ResourceManager g_resources;
-    };
+};

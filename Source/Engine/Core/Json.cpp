@@ -19,7 +19,7 @@ namespace umbra
 		std::stringstream stream(buffer);
 		rapidjson::IStreamWrapper istream(stream);
 
-		// parse stream to json
+		//parse stream to json
 
 		document.ParseStream(istream);
 		if (!document.IsObject())
@@ -83,7 +83,7 @@ namespace umbra
 	bool Json::Read(const rapidjson::Value& value, const std::string& name, Vector2& data, bool required)
 	{
 		// check if 'name' member exists and is an array with 2 elements
-		if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsArray() || !value[name.c_str()].Size() != 2)
+		if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsArray() || value[name.c_str()].Size() != 2)
 		{
 			if (required) ERROR_LOG("Cannot read required json data: " << name.c_str());
 			return false;

@@ -14,21 +14,24 @@
 bool SpaceRanch::Initialize()
 {
 	//create font / text
-	m_scoreText = std::make_unique<umbra::Text>(umbra::g_resources.Get<umbra::Font>("MinecraftRegular.ttf", 24));
+	//m_font = umbra::ResourceManager::Instance().Get<umbra::Font>("MinecraftRegular.ttf", 24);
+	m_font = GET_RESOURCE(umbra::Font, "MinecraftRegular.tff", 24);
+
+	//m_scoreText = std::make_unique<umbra::Text>(umbra::g_resources.Get<umbra::Font>("MinecraftRegular.ttf", 24)); //the original thingy
 	m_scoreText->Create(umbra::g_renderer, "SCORE", umbra::Color{1, 0, 1, 1});
 
-	m_lifeText = std::make_unique<umbra::Text>(umbra::g_resources.Get<umbra::Font>("MinecraftRegular.ttf", 24));
+	m_lifeText = std::make_unique<umbra::Text>(m_font);
 	m_lifeText->Create(umbra::g_renderer, "LIVES", umbra::Color{1, 0, 1, 1});
 
-	m_tutorialText = std::make_unique<umbra::Text>(umbra::g_resources.Get<umbra::Font>("MinecraftRegular.ttf", 24));
-	m_tutorialText2 = std::make_unique<umbra::Text>(umbra::g_resources.Get<umbra::Font>("MinecraftRegular.ttf", 24));
+	m_tutorialText = std::make_unique<umbra::Text>(m_font);
+	m_tutorialText2 = std::make_unique<umbra::Text>(m_font);
 	m_tutorialText->Create(umbra::g_renderer, "W to thrust, A and D to turn!", umbra::Color{1, 1, 1, 1});
 	m_tutorialText2->Create(umbra::g_renderer, "Space is to shoot but ramming into enemies works in a pinch.", umbra::Color{1, 1, 1, 1});
 
-	m_titleText = std::make_unique<umbra::Text>(umbra::g_resources.Get<umbra::Font>("MinecraftRegular.ttf", 24));
+	m_titleText = std::make_unique<umbra::Text>(m_font);
 	m_titleText->Create(umbra::g_renderer, "S P A C E   R A N C H", umbra::Color{1, 1, 1, 1});
 	
-	m_gameOverText = std::make_unique<umbra::Text>(umbra::g_resources.Get<umbra::Font>("MinecraftRegular.ttf", 24));
+	m_gameOverText = std::make_unique<umbra::Text>(m_font);
 	m_gameOverText->Create(umbra::g_renderer, "GAME OVER", umbra::Color{1, 0, 0, 1});
 
 	//load audio
@@ -78,8 +81,9 @@ void SpaceRanch::Update(float dt)
 			player->m_game = this;
 
 			//create Components
-			auto renderComponent = std::make_unique<umbra::SpriteComponent>();
-			renderComponent->m_texture = umbra::g_resources.Get<umbra::Texture>("playership.png", umbra::g_renderer);
+			auto renderComponent = umbra::Factory::Instance().Create<umbra::SpriteComponent>("SpriteComponent"); //original >>>> std::make_unique<umbra::SpriteComponent>();
+			renderComponent->m_texture = GET_RESOURCE(umbra::Texture, "playership.png", umbra::g_renderer);
+			//renderComponent->m_texture = umbra::g_resources.Get<umbra::Texture>("playership.png", umbra::g_renderer);
 			player->AddComponent(std::move(renderComponent));
 
 			//adding physics
@@ -124,7 +128,8 @@ void SpaceRanch::Update(float dt)
 
 			//create components
 			std::unique_ptr<umbra::SpriteComponent> component = std::make_unique<umbra::SpriteComponent>();
-			component->m_texture = umbra::g_resources.Get<umbra::Texture>("playership.png", umbra::g_renderer); //obviously change to enemy png lol
+			component->m_texture = GET_RESOURCE(umbra::Texture, "playership.png", umbra::g_renderer);
+			//component->m_texture = umbra::g_resources.Get<umbra::Texture>("playership.png", umbra::g_renderer); //obviously change to enemy png lol
 			enemy->AddComponent(std::move(component));	
 
 			auto collisionComponent = std::make_unique<umbra::CircleCollisionComponent>();

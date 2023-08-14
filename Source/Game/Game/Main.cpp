@@ -39,43 +39,12 @@ public:
 	umbra::vec2 m_vel;
 };
 
-/*
-void print_arg(int count, ...) //after count is where we start the va arg
-{
-	va_list args;
-
-	va_start(args, count);
-	for (int i = 0; i < count; ++i)
-	{
-		std::cout << va_arg(args, const char*) << std::endl;
-	}
-	va_end(args);
-}
-void zero(int v) //pass by copy or pass by value
-{
-	//makes a deep copy of the value
-	v = 0;
-}
-void zero(int* v) //pass by pointer
-{
-	*v = 0; //use & to pass reference OF value
-}
-void zero_ref(int& v) //pass by reference (used if answer COULD be NULL)
-{
-	//if literal value, needs to take in a const int&
-	v = 0;
-}
-
-void print(const std::string& s) //if we dont change value, make it const ;3
-{
-	//if we took a value, it would copy the og value first
-	cout << s << endl;
-}
-*/
-
 int main(int argc, char* argv[])
 {
-	//click on things and press f12 to see what it is / does (i think ctrl-click does the same thing)
+	umbra::Factory::Instance().Register<umbra::SpriteComponent>("SpriteComponent");
+
+
+
 	INFO_LOG("Initializing Engine...");
 
 	umbra::MemoryTracker::Initialize();
@@ -87,23 +56,23 @@ int main(int argc, char* argv[])
 	rapidjson::Document document;
 	umbra::Json::Load("json.txt", document);
 	int i1;
-	umbra::Json::Read(document, "integer1", i1);
+	umbra::Json::Read(document, "integer1", i1); //integer1 is the key in the json file, i1 is where we put that data
 	std::cout << i1 << std::endl;
 	int i2;
 	umbra::Json::Read(document, "integer2", i2);
 	std::cout << i2 << std::endl;
 
 	std::string str;
-	umbra::Json::Read(document, "hello world", str);
+	umbra::Json::Read(document, "string", str);
 	std::cout << str << std::endl;
 	bool b;
-	umbra::Json::Read(document, "true", b);
+	umbra::Json::Read(document, "boolean", b);
 	std::cout << b << std::endl;
 	float f;
-	umbra::Json::Read(document, "3.1416f", f);
+	umbra::Json::Read(document, "float", f);
 	std::cout << f << std::endl;
 	umbra::vec2 v2;
-	umbra::Json::Read(document, "[100.0, 200.0]", v2);
+	umbra::Json::Read(document, "vector2", v2);
 	std::cout << v2 << std::endl;
 
 	//our window setup
