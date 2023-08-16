@@ -3,6 +3,8 @@
 
 namespace umbra
 {
+    CLASS_DEFINITION(CircleCollisionComponent)
+
     void CircleCollisionComponent::Update(float dt)
     {
         //

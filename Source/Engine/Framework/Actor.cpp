@@ -4,6 +4,8 @@
 
 namespace umbra
 {
+	CLASS_DEFINITION(Actor)
+
 	bool Actor::Initialize()
 	{
 		for (auto& component : m_components)
@@ -53,5 +55,12 @@ namespace umbra
 	{
 		component->m_owner = this;
 		m_components.push_back(std::move(component)); //this gives me error ;/
+	}
+
+	bool Actor::Read(const rapidjson::Value& value)
+	{
+		
+
+		return true;
 	}
 }

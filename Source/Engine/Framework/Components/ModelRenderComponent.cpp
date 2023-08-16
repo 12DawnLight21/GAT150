@@ -3,6 +3,8 @@
 
 namespace umbra
 {
+	CLASS_DEFINITION(ModelRenderComponent);
+
 	void ModelRenderComponent::Update(float dt)
 	{
 

@@ -1,12 +1,16 @@
 #pragma once
-#include "Object.h"
 #include "Singleton.h"
+#include "Core/Logger.h"
 
 #include <memory>
 #include <map>
+#include <string>
+
+#define CREATE_NAMESPACE_CLASS(classname) umbra::Factory::Instance().Create<umbra::classname>(#classname);
 
 namespace umbra
 {
+	class Object;
 
 	class CreatorBase
 	{
@@ -35,6 +39,11 @@ namespace umbra
 		template <typename T>
 		std::unique_ptr<T> Create(const std::string& key);
 
+		friend class Singleton;
+
+	protected:
+		Factory() = default;
+
 	private: //holds creator objects
 		std::map<std::string, std::unique_ptr<CreatorBase>> m_registry; //give me a string, ill give you a creatorbase object
 	};
@@ -42,7 +51,9 @@ namespace umbra
 	template<typename T>
 	inline void Factory::Register(const std::string& key) //registers key to the registry
 	{
-		m_registry[key] = std::make_unique<Creator<T>>; //makes an object with a creator type of T
+		//INFO_LOG("Class registered: " << key); //this DIDNT work and when i removed it, its fine. wtf.
+
+		m_registry[key] = std::make_unique<Creator<T>>(); //makes an object with a creator type of T
 	}
 
 	template<typename T>
@@ -51,7 +62,7 @@ namespace umbra
 		auto iter = m_registry.find(key); //returns iterator
 		if (iter != m_registry.end()) //if it equals end, we didnt find anything
 		{
-			return std::unique_ptr<T>(dynamic_cast<T*>(iter->second->Create().release())); //1st get key, 2nd gets value // release gives us the pointer
+			return std::unique_ptr<T>(dynamic_cast<T*>(iter->second->Create().release())); //1st get key, 2nd gets value // release gives us the pointer & removes unique ptr
 		}
 		return std::unique_ptr<T>();
 	}

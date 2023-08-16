@@ -3,6 +3,9 @@
 #include "Math/Vector2.h"
 #include <string>
 
+#define READ_DATA(value, data) umbra::Json::Read(value, #data, data);
+#define READ_DATA_REQUIRED(value, data) umbra::Json::Read(value, #data, data, true);
+
 namespace umbra
 {
 	class Json

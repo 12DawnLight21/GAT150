@@ -14,10 +14,9 @@
 bool SpaceRanch::Initialize()
 {
 	//create font / text
-	//m_font = umbra::ResourceManager::Instance().Get<umbra::Font>("MinecraftRegular.ttf", 24);
-	m_font = GET_RESOURCE(umbra::Font, "MinecraftRegular.tff", 24);
+	m_font = GET_RESOURCE(umbra::Font, "MinecraftRegular.ttf", 24);
 
-	//m_scoreText = std::make_unique<umbra::Text>(umbra::g_resources.Get<umbra::Font>("MinecraftRegular.ttf", 24)); //the original thingy
+	m_scoreText = std::make_unique<umbra::Text>(m_font);
 	m_scoreText->Create(umbra::g_renderer, "SCORE", umbra::Color{1, 0, 1, 1});
 
 	m_lifeText = std::make_unique<umbra::Text>(m_font);
@@ -81,7 +80,7 @@ void SpaceRanch::Update(float dt)
 			player->m_game = this;
 
 			//create Components
-			auto renderComponent = umbra::Factory::Instance().Create<umbra::SpriteComponent>("SpriteComponent"); //original >>>> std::make_unique<umbra::SpriteComponent>();
+			auto renderComponent = CREATE_NAMESPACE_CLASS(SpriteComponent); //umbra::Factory::Instance().Create<umbra::SpriteComponent>("SpriteComponent"); //original >>>> std::make_unique<umbra::SpriteComponent>();
 			renderComponent->m_texture = GET_RESOURCE(umbra::Texture, "playership.png", umbra::g_renderer);
 			//renderComponent->m_texture = umbra::g_resources.Get<umbra::Texture>("playership.png", umbra::g_renderer);
 			player->AddComponent(std::move(renderComponent));
@@ -121,23 +120,47 @@ void SpaceRanch::Update(float dt)
 		if (m_spawnTimer >= m_spawnTime)
 		{
 			m_spawnTimer = 0;
-			std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(umbra::randomf(75.0f, 150.0f), umbra::Pi, umbra::Transform{ { umbra::random(800), umbra::random(600)}, umbra::randomf(umbra::TwoPi), 6 });
+
+			//added this before i was supposed too i think
+			auto enemy = std::make_unique<Enemy>(umbra::randomf(75.0f, 150.0f), umbra::Pi, umbra::Transform{{400, 300}, 0, 1});
 			enemy->m_tag = "Enemy";
 			enemy->m_game = this;
-			m_scene->Add(std::move(enemy));
 
-			//create components
-			std::unique_ptr<umbra::SpriteComponent> component = std::make_unique<umbra::SpriteComponent>();
-			component->m_texture = GET_RESOURCE(umbra::Texture, "playership.png", umbra::g_renderer);
-			//component->m_texture = umbra::g_resources.Get<umbra::Texture>("playership.png", umbra::g_renderer); //obviously change to enemy png lol
-			enemy->AddComponent(std::move(component));	
+			auto renderComponent = umbra::Factory::Instance().Create<umbra::SpriteComponent>("SpriteComponent");
+			renderComponent->m_texture = GET_RESOURCE(umbra::Texture, "playership.png", umbra::g_renderer);
+			enemy->AddComponent(std::move(renderComponent));
 
-			auto collisionComponent = std::make_unique<umbra::CircleCollisionComponent>();
-			collisionComponent->m_radius = 30.0f;
-			enemy->AddComponent(std::move(collisionComponent));
+			//adding physics
+			auto physicsComponent = std::make_unique<umbra::EnginePhysicsComponent>(); 
+			physicsComponent->m_damping = 0.5f; 
+			enemy->AddComponent(std::move(physicsComponent)); 
 
-			enemy->Initialize();
-			m_scene->Add(std::move(enemy));
+			auto collisionComponent = std::make_unique<umbra::CircleCollisionComponent>(); 
+			collisionComponent->m_radius = 30.0f; 
+			enemy->AddComponent(std::move(collisionComponent)); 
+
+			enemy->Initialize(); 
+			m_scene->Add(std::move(enemy)); 
+
+
+			// \/\/\/\/\/\/\/ OLD SHIT \/\/\/\/\/\/\/\/ \\
+			//std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(umbra::randomf(75.0f, 150.0f), umbra::Pi, umbra::Transform{ { umbra::random(800), umbra::random(600)}, umbra::randomf(umbra::TwoPi), 6 });
+			//enemy->m_tag = "Enemy";
+			//enemy->m_game = this;
+			//m_scene->Add(std::move(enemy));
+
+			////create components
+			//std::unique_ptr<umbra::SpriteComponent> component = std::make_unique<umbra::SpriteComponent>();
+			//component->m_texture = GET_RESOURCE(umbra::Texture, "playership.png", umbra::g_renderer);
+			////component->m_texture = umbra::g_resources.Get<umbra::Texture>("playership.png", umbra::g_renderer); //obviously change to enemy png lol
+			//enemy->AddComponent(std::move(component));	
+
+			//auto collisionComponent = std::make_unique<umbra::CircleCollisionComponent>();
+			//collisionComponent->m_radius = 30.0f;
+			//enemy->AddComponent(std::move(collisionComponent));
+
+			//enemy->Initialize();
+			//m_scene->Add(std::move(enemy));
 		}
 
 		if (m_powerTimer >= m_powerTime)

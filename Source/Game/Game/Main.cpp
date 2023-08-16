@@ -41,10 +41,6 @@ public:
 
 int main(int argc, char* argv[])
 {
-	umbra::Factory::Instance().Register<umbra::SpriteComponent>("SpriteComponent");
-
-
-
 	INFO_LOG("Initializing Engine...");
 
 	umbra::MemoryTracker::Initialize();
