@@ -53,22 +53,23 @@ void Enemy::Update(float dt)
 	//timer <= 0 reset time
 
 	//uhhhh fires SUPER fast but if i change the firetimer value itll fix itself??
-	if (m_fireTimer <= 0)
-	{
-		m_fireTimer = m_fireRate;
+	//if (m_fireTimer <= 0)
+	//{
+	//	m_fireTimer = m_fireRate;
 
-		//create weapon
-		umbra::Transform transformm{ transform.position, transform.rotation, 2}; //changes bullet size
-		std::unique_ptr<WeaponComponent> projectile = std::make_unique<WeaponComponent>(400.0f, transform);
-		projectile->tag = "EnemyBullet";
+	//	//create weapon
+	//	umbra::Transform transformm{ transform.position, transform.rotation, 2}; //changes bullet size
+	//	std::unique_ptr<Weapon> projectile = std::make_unique<Weapon>(400.0f, transform);
+	//	projectile->tag = "EnemyBullet";
 
-		umbra::g_audioSystem.PlayOneShot("e_shoot");
-		m_scene->Add(std::move(projectile));
-	}
-	else
-	{
-		m_fireTimer -= dt;
-	}
+	//	umbra::g_audioSystem.PlayOneShot("e_shoot");
+	//	m_scene->Add(std::move(projectile));
+	//}
+	//else
+	//{
+	//	m_fireTimer -= dt;
+	//}
+
 }
 
 void Enemy::OnCollision(Actor* other)

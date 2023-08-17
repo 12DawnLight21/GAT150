@@ -136,5 +136,3 @@ int main(int argc, char* argv[])
 
 	return 0; 
 }
-
-// LNK errors are linking errors

@@ -1,9 +1,9 @@
 #pragma once
-#include "Framework/Components/Component.h"
+#include "Framework/Actor.h"
 
 namespace umbra
 {
-	class WeaponComponent : public Component //renamed weapon to weaponComponent
+	class Weapon : public Actor
 	{
 	public:
 		/*Projectile(float speed, const umbra::Transform transform) :

@@ -3,4 +3,3 @@ INFO: Class registered: ModelRenderComponent
 INFO: Class registered: EnginePhysicsComponent
 INFO: Class registered: CircleCollisionComponent
 INFO: Class registered: Actor
-WARNING: Filename  is invalid. Check your spelling!

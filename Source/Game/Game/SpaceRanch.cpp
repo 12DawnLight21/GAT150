@@ -39,7 +39,10 @@ bool SpaceRanch::Initialize()
 	umbra::g_audioSystem.AddAudio("bg_music", "TheHandoftheQueen.wav"); 
 	umbra::g_audioSystem.AddAudio("dead", "Explosion.wav"); 
 
+	//create scene
 	m_scene = std::make_unique<umbra::Scene>();
+	m_scene->Load("scene.json");
+	m_scene->Initialize();
 
 	return true;
 }
@@ -261,6 +264,8 @@ void SpaceRanch::Update(float dt)
 
 void SpaceRanch::Draw(umbra::Renderer& renderer)
 {
+	m_scene->Draw(renderer);
+
 	if (m_state == eState::Title)
 	{
 		m_titleText->Draw(renderer, 275, 275);
@@ -279,6 +284,5 @@ void SpaceRanch::Draw(umbra::Renderer& renderer)
 
 	m_scoreText->Draw(renderer, 40, 40);
 	m_lifeText->Draw(renderer, 40, 80);
-	m_scene->Draw(renderer);
 	umbra::g_particleSystem.Draw(renderer);
 }

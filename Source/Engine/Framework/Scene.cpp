@@ -2,7 +2,14 @@
 #include "Framework/Framework.h"
 
 namespace umbra
-{ 
+{
+	bool Scene::Initialize()
+	{
+		for (auto& actor : m_actors) actor->Initialize();
+
+		return true;
+	}
+
 	void Scene::Update(float dt)
 	{
 		//remove destroyed actors
@@ -18,14 +25,12 @@ namespace umbra
 		{
 			for (auto iter2 = std::next(iter1, 1); iter2 != m_actors.end(); iter2++)
 			{
-				///new vvvvvv
 				CollisionComponent* collision1 = (*iter1)->GetComponent<CollisionComponent>();
 				CollisionComponent* collision2 = (*iter2)->GetComponent<CollisionComponent>();
 
 				if (!collision1 || !collision2) continue;
 
 				if (collision1->CheckCollision(collision2))
-					/// ^^^^^
 				{
 					(*iter1)->OnCollision(iter2->get());
 					(*iter2)->OnCollision(iter1->get());
@@ -51,5 +56,37 @@ namespace umbra
 	void Scene::RemoveAll()
 	{
 		m_actors.clear();
+	}
+	bool Scene::Load(const std::string& filename)
+	{
+		rapidjson::Document document;
+		if (!Json::Load(filename, document))
+		{
+			ERROR_LOG("Could not load scene file: " << filename);
+			return false;
+		}
+
+		Read(document);
+
+		return true;
+	}
+	void Scene::Read(const json_t& value)
+	{
+
+
+
+		if (HAS_DATA(value, actors) && GET_DATA(value, actors).IsArray())
+		{
+			for (auto& actorValue : GET_DATA(value, actors).GetArray())
+			{
+				std::string type;
+				READ_DATA(actorValue, type);
+
+				auto actor = CREATE_NAMESPACE_CLASSBASE(Actor, type);
+				actor->Read(actorValue);
+
+				Add(std::move(actor)); //have to move it cause its a unique pointer
+			}
+		}
 	}
 }

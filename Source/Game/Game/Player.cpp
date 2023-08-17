@@ -51,18 +51,18 @@ void Player::Update(float dt)
 	transform.position.y = umbra::Wrap(transform.position.y, (float)umbra::g_renderer.GetHeight());
 
 	// create weapon
-	umbra::g_audioSystem.PlayOneShot("Laser");
-	umbra::Transform transform1{ transform.position, transform.rotation, 1.0f };
-	std::unique_ptr<WeaponComponent> weapon = std::make_unique<WeaponComponent>(400.0f, transform1);
-	weapon->tag = "PlayerBullet";
+	//umbra::g_audioSystem.PlayOneShot("Laser");
+	//umbra::Transform transform1{ transform.position, transform.rotation, 1.0f };
+	//std::unique_ptr<Weapon> weapon = std::make_unique<Weapon>(400.0f, transform1);
+	//weapon->tag = "PlayerBullet";
 
-	//for each weapon
-	auto collisionComponent = std::make_unique<umbra::CircleCollisionComponent>();
-	collisionComponent->m_radius = 30.0f;
-	weapon->AddComponent(std::move(collisionComponent));
-	weapon->Initialize();
+	////for each weapon
+	//auto collisionComponent = std::make_unique<umbra::CircleCollisionComponent>();
+	//collisionComponent->m_radius = 30.0f;
+	//weapon->AddComponent(std::move(collisionComponent));
+	//weapon->Initialize();
 
-	m_scene->Add(std::move(weapon));
+	//m_scene->Add(std::move(weapon));
 }
 
 void Player::OnCollision(Actor* other)
