@@ -1,14 +1,17 @@
 #pragma once
+#include "Framework/Singleton.h"
+
 #include <string>
 #include <cassert>
 #include <fstream>
+#include <iostream>
 
 #ifdef _DEBUG
 
-#define INFO_LOG(message) { if (umbra::g_logger.Log(umbra::LogLevel::Info, __FILE__, __LINE__)) {umbra::g_logger << message << "\n";} }
-#define WARNING_LOG(message) { if (umbra::g_logger.Log(umbra::LogLevel::Warning, __FILE__, __LINE__)) {umbra::g_logger << message << "\n";} }
-#define ERROR_LOG(message) { if (umbra::g_logger.Log(umbra::LogLevel::Error, __FILE__, __LINE__)) {umbra::g_logger << message << "\n";} }
-#define ASSERT_LOG(condition, message) { if (!condition && umbra::g_logger.Log(umbra::LogLevel::Assert, __FILE__, __LINE__)) {umbra::g_logger << message << "\n";} assert(condition); }
+#define INFO_LOG(message) { if (umbra::Logger::Instance().Log(umbra::LogLevel::Info, __FILE__, __LINE__)) {umbra::Logger::Instance() << message << "\n";} }
+#define WARNING_LOG(message) { if (umbra::Logger::Instance().Log(umbra::LogLevel::Warning, __FILE__, __LINE__)) {umbra::Logger::Instance() << message << "\n";} }
+#define ERROR_LOG(message) { if (umbra::Logger::Instance().Log(umbra::LogLevel::Error, __FILE__, __LINE__)) {umbra::Logger::Instance() << message << "\n";} }
+#define ASSERT_LOG(condition, message) { if (!condition && umbra::Logger::Instance().Log(umbra::LogLevel::Assert, __FILE__, __LINE__)) {umbra::Logger::Instance() << message << "\n";} assert(condition); }
 #else 
 #define INFO_LOG(message) {}
 #define WARNING_LOG(message) {}
@@ -27,10 +30,11 @@ namespace umbra
 		Assert
 	};
 
-	class Logger
+	class Logger : public Singleton<Logger>
 	{
 		public:
-			Logger(LogLevel logLevel, std::ostream* ostream, const std::string& filename = "") :
+			// setting all of these to have default so we can use THIS \/ as the default constructor
+			Logger(LogLevel logLevel = LogLevel::Info, std::ostream* ostream = &std::cout, const std::string& filename = "log.txt") :
 				m_logLevel{ logLevel },
 				m_ostream { ostream } 
 			{
@@ -47,8 +51,6 @@ namespace umbra
 			std::ostream* m_ostream = nullptr;
 			std::ofstream m_fstream;
 	};
-
-	extern Logger g_logger;
 
 	template<typename T>
 	inline Logger& Logger::operator<<(T value)

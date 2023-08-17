@@ -16,7 +16,7 @@ void Health::Update(float dt)
 
 void Health::OnCollision(Actor* other)
 {
-	if (other->m_tag == "Player")
+	if (other->tag == "Player")
 	{
 		//create explosion
 		umbra::EmitterData data;
@@ -32,8 +32,8 @@ void Health::OnCollision(Actor* other)
 		data.damping = 0.6f;
 		data.color = umbra::Color{ 0, 0.5531145f, 1,  1 };
 
-		umbra::Transform transform{m_transform.position, 0, 1};
-		auto emitter = std::make_unique<umbra::Emitter>(m_transform, data);
+		/*umbra::Transform transform{transform.position, 0, 1};
+		auto emitter = std::make_unique<umbra::Emitter>(transform, data);
 		emitter->SetLifespan(0.1f);
 		m_scene->Add(std::move(emitter));
 
@@ -41,6 +41,6 @@ void Health::OnCollision(Actor* other)
 		m_destroyed = true;
 
 		umbra::g_audioSystem.PlayOneShot("power", false);
-		dynamic_cast<SpaceRanch*>(m_game)->SetState(SpaceRanch::eState::Game);
+		dynamic_cast<SpaceRanch*>(m_game)->SetState(SpaceRanch::eState::Game);*/
 	}
 }

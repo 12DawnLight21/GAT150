@@ -18,7 +18,7 @@ bool Enemy::Initialize()
 		auto renderComponent = GetComponent<umbra::RenderComponent>();
 		if (renderComponent)
 		{
-			float scale = m_transform.scale;
+			float scale = transform.scale;
 			collisionComponent->m_radius = renderComponent->GetRadius() * scale;
 		}
 	}
@@ -30,15 +30,15 @@ void Enemy::Update(float dt)
 {
 	Actor::Update(dt);
 
-	umbra::vec2 forward = umbra::vec2(0, -1).Rotate(m_transform.rotation);
+	umbra::vec2 forward = umbra::vec2(0, -1).Rotate(transform.rotation);
 	Player* player = m_scene->GetActor<Player>(); //T* is replaced by player 
 	if (player)
 	{
-		umbra::vec2 direction = player->m_transform.position - m_transform.position;
+		umbra::vec2 direction = player->transform.position - transform.position;
 
 		float turnAngle = umbra::vec2::SignedAngle(forward, direction.Normalized());
 
-		m_transform.rotation += turnAngle * dt;
+		transform.rotation += turnAngle * dt;
 
 		if (std::fabs(turnAngle) < umbra::DegToRad(30))
 		{
@@ -46,9 +46,9 @@ void Enemy::Update(float dt)
 		}
 	}
 
-	m_transform.position += forward * m_speed * umbra::g_time.GetDeltaTime();
-	m_transform.position.x = umbra::Wrap(m_transform.position.x, (float)umbra::g_renderer.GetWidth()); //if i dont cast these to a float he stutters and dies
-	m_transform.position.y = umbra::Wrap(m_transform.position.y, (float)umbra::g_renderer.GetHeight());
+	transform.position += forward * m_speed * umbra::g_time.GetDeltaTime();
+	transform.position.x = umbra::Wrap(transform.position.x, (float)umbra::g_renderer.GetWidth()); //if i dont cast these to a float he stutters and dies
+	transform.position.y = umbra::Wrap(transform.position.y, (float)umbra::g_renderer.GetHeight());
 
 	//timer <= 0 reset time
 
@@ -58,9 +58,9 @@ void Enemy::Update(float dt)
 		m_fireTimer = m_fireRate;
 
 		//create weapon
-		umbra::Transform transform{ m_transform.position, m_transform.rotation, 2}; //changes bullet size
-		std::unique_ptr<Projectile> projectile = std::make_unique<Projectile>(400.0f, transform);
-		projectile->m_tag = "EnemyBullet";
+		umbra::Transform transformm{ transform.position, transform.rotation, 2}; //changes bullet size
+		std::unique_ptr<WeaponComponent> projectile = std::make_unique<WeaponComponent>(400.0f, transform);
+		projectile->tag = "EnemyBullet";
 
 		umbra::g_audioSystem.PlayOneShot("e_shoot");
 		m_scene->Add(std::move(projectile));
@@ -73,7 +73,7 @@ void Enemy::Update(float dt)
 
 void Enemy::OnCollision(Actor* other)
 {
-	if (other->m_tag == "PlayerBullet"  || other->m_tag == "Player")
+	if (other->tag == "PlayerBullet"  || other->tag == "Player")
 	{
 		//create explosion
 		umbra::EmitterData data;
@@ -89,14 +89,14 @@ void Enemy::OnCollision(Actor* other)
 		data.damping = 0.5f;
 		data.color = umbra::Color{ 1, 0, 0, 1 };
 
-		umbra::Transform transform{m_transform.position, 0, 1};
-		auto emitter = std::make_unique<umbra::Emitter>(m_transform, data);
+		umbra::Transform transformm{transform.position, 0, 1};
+		auto emitter = std::make_unique<umbra::Emitter>(transform, data);
 		//emitter->m_lifespan = 1.0f; rewrote this to be better?
 		emitter->SetLifespan(0.1f);
 		m_scene->Add(std::move(emitter));
 
 		m_game->AddPoints(100);
-		m_destroyed = true;
+		destroyed = true;
 		umbra::g_audioSystem.PlayOneShot("dead");
 		dynamic_cast<SpaceRanch*>(m_game)->SetState(SpaceRanch::eState::Game);
 	}

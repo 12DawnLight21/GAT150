@@ -12,7 +12,7 @@ namespace umbra
 		CLASS_DECLARATION(Actor)
 
 		Actor() = default;
-		Actor(const Transform& transform) : m_transform{transform} {}
+		Actor(const Transform& transform) : transform{transform} {}
 
 		virtual bool Initialize();
 		virtual void OnDestroy();
@@ -27,31 +27,32 @@ namespace umbra
 		float GetRadius() { return 30.0f; }
 		virtual void OnCollision(Actor* other) {};
 
-		float GetLifespan() { return m_lifespan; };
-		float SetLifespan(float lifespan) { return m_lifespan = lifespan; };
+		float GetLifespan() { return lifespan; };
+		float SetLifespan(float lifespan) { return lifespan = lifespan; };
 
-		bool GetDestroyed() { return m_destroyed; };
-		bool SetDestroyed(bool destroyed) { return m_destroyed = destroyed; };
+		bool GetDestroyed() { return destroyed; };
+		bool SetDestroyed(bool destroyed) { return destroyed = destroyed; };
 
 		class Scene* m_scene = nullptr; //inline forward declaration
 		friend class Scene;
 
 		class Game* m_game = nullptr;
 
-		Transform m_transform;
-		std::string m_tag;
+	public:
+		Transform transform;
+		std::string tag;
 
 	protected:
-		std::vector<std::unique_ptr<Component>> m_components;
+		std::vector<std::unique_ptr<Component>> components;
 
-		bool m_destroyed = false; //a flag
-		float m_lifespan = -1.0f;
+		bool destroyed = false; //a flag
+		float lifespan = -1.0f;
 	};
 
 	template<typename T>
 	inline T* Actor::GetComponent()
 	{
-		for (auto& component : m_components)
+		for (auto& component : components)
 		{
 			T* result = dynamic_cast<T*>(component.get()); 
 			if (result) return result;

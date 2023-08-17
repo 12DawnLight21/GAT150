@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/Core.h"
+#include "Core/Core.h" //includes my json file anyways
 #include "Matrix22.h"
 #include "Matric33.h"
 
@@ -29,5 +29,7 @@ namespace umbra
 
 			return mx;
 		}
+
+		void Read(const json_t& value);
 	};
 }

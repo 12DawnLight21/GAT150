@@ -41,7 +41,7 @@ public:
 
 int main(int argc, char* argv[])
 {
-	INFO_LOG("Initializing Engine...");
+	//INFO_LOG("Initializing Engine...");
 
 	umbra::MemoryTracker::Initialize();
 

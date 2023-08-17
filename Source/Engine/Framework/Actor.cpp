@@ -8,7 +8,7 @@ namespace umbra
 
 	bool Actor::Initialize()
 	{
-		for (auto& component : m_components)
+		for (auto& component : components)
 		{
 			component->Initialize();
 		}
@@ -18,7 +18,7 @@ namespace umbra
 
 	void Actor::OnDestroy()
 	{
-		for (auto& component : m_components)
+		for (auto& component : components)
 		{
 			component->OnDestroy();
 		}
@@ -26,13 +26,13 @@ namespace umbra
 
 	void Actor::Update(float dt)
 	{
-		if (m_lifespan != -1)
+		if (lifespan != -1)
 		{
-			m_lifespan -= dt;
-			m_destroyed = (m_lifespan <= 0);
+			lifespan -= dt;
+			destroyed = (lifespan <= 0);
 		}
 
-		for (auto& component : m_components)
+		for (auto& component : components)
 		{
 			component->Update(dt);
 		}
@@ -40,7 +40,7 @@ namespace umbra
 
 	void Actor::Draw(umbra::Renderer& renderer)
 	{
-		for (auto& component : m_components)
+		for (auto& component : components)
 		{
 			RenderComponent* r_component = dynamic_cast<RenderComponent*>(component.get());
 			if (r_component)
@@ -54,13 +54,30 @@ namespace umbra
 	void Actor::AddComponent(std::unique_ptr<Component> component)
 	{
 		component->m_owner = this;
-		m_components.push_back(std::move(component)); //this gives me error ;/
+		components.push_back(std::move(component)); //this gives me error ;/
 	}
 
-	bool Actor::Read(const rapidjson::Value& value)
+	void Actor::Read(const json_t& value)
 	{
-		
+		Object::Read(value);
 
-		return true;
+		READ_DATA(value, tag);
+		READ_DATA(value, lifespan);
+
+		if (HAS_DATA(value, transform)) transform.Read(value);
+
+		if (HAS_DATA(value, components) && GET_DATA(value, components).IsArray())
+		{
+			for (auto& componentValue : GET_DATA(value, components).GetArray())
+			{
+				std::string type;
+				READ_DATA(componentValue, type);
+
+				auto component = CREATE_NAMESPACE_CLASSBASE(Component, type);
+				component->Read(componentValue);
+
+				AddComponent(std::move(component)); //have to move it cause its a unique pointer
+			}
+		}
 	}
 }

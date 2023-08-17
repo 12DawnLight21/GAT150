@@ -4,8 +4,8 @@
 class Enemy : public umbra::Actor
 {
 public:
-	Enemy(float speed, float turnRate, const umbra::Transform transform) :
-		Actor{ transform },
+	Enemy(float speed, float turnRate, const umbra::Transform transformm) :
+		Actor{ transformm },
 		m_speed{ speed },
 		m_turnRate{ turnRate }
 	{

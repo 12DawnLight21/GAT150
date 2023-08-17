@@ -1,22 +1,26 @@
 #pragma once
-#include "Framework/Actor.h"
+#include "Framework/Components/Component.h"
 
-class Projectile : public umbra::Actor
+namespace umbra
 {
-public:
-	Projectile(float speed, const umbra::Transform transform) :
-		Actor{ transform },
-		m_speed{ speed } 
+	class WeaponComponent : public Component //renamed weapon to weaponComponent
 	{
-		m_lifespan = 2.0f;
+	public:
+		/*Projectile(float speed, const umbra::Transform transform) :
+			Actor{ transform },
+			m_speed{ speed }
+		{
+			lifespan = 2.0f;
+		};
+		*/
+
+		bool Initialize() override;
+		void Update(float dt) override;
+
+		void OnCollision(Actor* other);
+		void Read(const json_t& value);
+
+	private:
+		float speed = 0;
 	};
-
-	bool Initialize() override;
-
-	void Update(float dt) override;
-
-	void OnCollision(Actor* other) override;
-
-private:
-	float m_speed = 0;
-};
+}

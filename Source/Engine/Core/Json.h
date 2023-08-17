@@ -5,6 +5,8 @@
 
 #define READ_DATA(value, data) umbra::Json::Read(value, #data, data);
 #define READ_DATA_REQUIRED(value, data) umbra::Json::Read(value, #data, data, true);
+#define HAS_DATA(value, data) value.HasMember(#data)
+#define GET_DATA(value, data) value[#data]
 
 namespace umbra
 {
@@ -20,4 +22,6 @@ namespace umbra
 
 		static bool Read(const rapidjson::Value& value, const std::string& name, Vector2& data, bool required = false);
 	};
+
+	using json_t = rapidjson::Value;
 }

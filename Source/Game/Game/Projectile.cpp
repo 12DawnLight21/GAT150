@@ -2,37 +2,42 @@
 #include "Framework/Framework.h"
 #include "Renderer/Renderer.h"
 
-bool Projectile::Initialize()
+namespace umbra
 {
-    auto collisionComponent = GetComponent<umbra::CollisionComponent>();
-    if (collisionComponent)
+    bool WeaponComponent::Initialize() 
     {
-        auto renderComponent = GetComponent<umbra::RenderComponent>();
-        if (renderComponent)
+        auto collisionComponent = m_owner->GetComponent<umbra::CollisionComponent>(); //get the actor that owns us since we're just a component now
+        if (collisionComponent)
         {
-            float scale = m_transform.scale;
-            collisionComponent->m_radius = renderComponent->GetRadius() * scale;
+            auto renderComponent = m_owner->GetComponent<umbra::RenderComponent>();
+            if (renderComponent)
+            {
+                float scale = m_owner->transform.scale;
+                collisionComponent->m_radius = renderComponent->GetRadius() * scale;
+            }
         }
+
+        return true;
     }
 
-    return true;
-}
+    void WeaponComponent::Update(float dt)
+    {
+        umbra::vec2 forward = umbra::vec2(0, -1).Rotate(m_owner->transform.rotation);
+        m_owner->transform.position += forward * speed * umbra::g_time.GetDeltaTime();
 
-void Projectile::Update(float dt)
-{
-	Actor::Update(dt);
+        m_owner->transform.position.x = umbra::Wrap(m_owner->transform.position.x, (float)umbra::g_renderer.GetWidth());
+        m_owner->transform.position.y = umbra::Wrap(m_owner->transform.position.y, (float)umbra::g_renderer.GetHeight());
+    }
 
-	umbra::vec2 forward = umbra::vec2(0, -1).Rotate(m_transform.rotation);
-	m_transform.position += forward * m_speed * umbra::g_time.GetDeltaTime();
-
-	m_transform.position.x = umbra::Wrap(m_transform.position.x, (float)umbra::g_renderer.GetWidth());
-	m_transform.position.y = umbra::Wrap(m_transform.position.y, (float)umbra::g_renderer.GetHeight());
-}
-
-void Projectile::OnCollision(Actor* other)
-{
-	if (other->m_tag != this->m_tag)
-	{
-		m_destroyed = true;
-	}
+    void WeaponComponent::OnCollision(Actor* other)
+    {
+        if (other->tag != m_owner->tag)
+        {
+            m_owner->SetDestroyed(true);
+        }
+    }
+    void WeaponComponent::Read(const json_t& value)
+    {
+        //
+    }
 }

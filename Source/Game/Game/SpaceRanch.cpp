@@ -76,7 +76,7 @@ void SpaceRanch::Update(float dt)
 			//Create Player
 			m_scene->RemoveAll();
 			auto player = std::make_unique<Player>(10.0f, umbra::Pi, umbra::Transform{ {400, 300}, 0, 1 });
-			player->m_tag = "Player";
+			player->tag = "Player";
 			player->m_game = this;
 
 			//create Components
@@ -123,7 +123,7 @@ void SpaceRanch::Update(float dt)
 
 			//added this before i was supposed too i think
 			auto enemy = std::make_unique<Enemy>(umbra::randomf(75.0f, 150.0f), umbra::Pi, umbra::Transform{{400, 300}, 0, 1});
-			enemy->m_tag = "Enemy";
+			enemy->tag = "Enemy";
 			enemy->m_game = this;
 
 			auto renderComponent = umbra::Factory::Instance().Create<umbra::SpriteComponent>("SpriteComponent");
@@ -167,7 +167,7 @@ void SpaceRanch::Update(float dt)
 		{
 			m_powerTimer = 0;
 			std::unique_ptr<Health> power = std::make_unique<Health>(umbra::Transform{ { umbra::random(800), umbra::random(600)}, umbra::randomf(umbra::TwoPi), 6 });
-			power->m_tag = "Power";
+			power->tag = "Power";
 			power->m_game = this;
 			m_scene->Add(std::move(power));
 		}

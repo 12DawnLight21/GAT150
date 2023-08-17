@@ -7,6 +7,7 @@
 #include <string>
 
 #define CREATE_NAMESPACE_CLASS(classname) umbra::Factory::Instance().Create<umbra::classname>(#classname);
+#define CREATE_NAMESPACE_CLASSBASE(classbase, classname) umbra::Factory::Instance().Create<umbra::classbase>(classname); //MICHAEL NEEDS THIS //maple calls this create_class_base!!
 
 namespace umbra
 {
@@ -51,7 +52,7 @@ namespace umbra
 	template<typename T>
 	inline void Factory::Register(const std::string& key) //registers key to the registry
 	{
-		//INFO_LOG("Class registered: " << key); //this DIDNT work and when i removed it, its fine. wtf.
+		INFO_LOG("Class registered: " << key); //this DIDNT work and when i removed it, its fine. wtf.
 
 		m_registry[key] = std::make_unique<Creator<T>>(); //makes an object with a creator type of T
 	}
