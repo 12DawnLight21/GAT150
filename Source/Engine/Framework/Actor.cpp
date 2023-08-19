@@ -6,6 +6,21 @@ namespace umbra
 {
 	CLASS_DEFINITION(Actor)
 
+	Actor::Actor(const Actor& other)
+	{
+		name = other.name;
+		tag = other.tag;
+		lifespan = other.lifespan;
+		transform = other.transform;
+		m_scene = other.m_scene;
+		m_game = other.m_game;
+		for (auto& component : other.components)
+		{
+			auto cloneComponent = std::unique_ptr<Component>(dynamic_cast<Component*>(component->Clone().release()));
+			AddComponent(std::move(cloneComponent));
+		}
+	}
+
 	bool Actor::Initialize()
 	{
 		for (auto& component : components)

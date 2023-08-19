@@ -13,6 +13,7 @@ namespace umbra
 
 		Actor() = default;
 		Actor(const Transform& transform) : transform{transform} {}
+		Actor(const Actor& other);
 
 		virtual bool Initialize();
 		virtual void OnDestroy();
@@ -41,6 +42,8 @@ namespace umbra
 	public:
 		Transform transform;
 		std::string tag;
+		bool persistent = false;
+		bool prototype = false;
 
 	protected:
 		std::vector<std::unique_ptr<Component>> components;

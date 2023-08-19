@@ -53,10 +53,18 @@ namespace umbra
 		m_actors.push_back(std::move(actor));
 	}
 
-	void Scene::RemoveAll()
+	void Scene::RemoveAll(bool force)
 	{
-		m_actors.clear();
+
+		auto iter = m_actors.begin();
+		while (iter != m_actors.end())
+		{
+			// If an actor is destroyed, remove it from the scene by erasing it from the actors vector.
+			// Otherwise, move to the next actor.
+			(force || !(*iter)->persistent) ? iter = m_actors.erase(iter) : iter++;
+		}
 	}
+
 	bool Scene::Load(const std::string& filename)
 	{
 		rapidjson::Document document;
@@ -70,22 +78,28 @@ namespace umbra
 
 		return true;
 	}
+
 	void Scene::Read(const json_t& value)
 	{
-
-
-
 		if (HAS_DATA(value, actors) && GET_DATA(value, actors).IsArray())
 		{
 			for (auto& actorValue : GET_DATA(value, actors).GetArray())
 			{
 				std::string type;
 				READ_DATA(actorValue, type);
-
 				auto actor = CREATE_NAMESPACE_CLASSBASE(Actor, type);
 				actor->Read(actorValue);
 
-				Add(std::move(actor)); //have to move it cause its a unique pointer
+				if (actor->prototype)
+				{
+					std::string name = actor->name;
+					Factory::Instance().RegisterPrototype(name, std::move(actor));
+				}
+				else
+				{
+					Add(std::move(actor));
+				}
+
 			}
 		}
 	}

@@ -20,14 +20,16 @@ namespace umbra
 		void Draw(Renderer& renderer);
 
 		void Add(std::unique_ptr<Actor> actor);
-		void RemoveAll();
+		void RemoveAll(bool force);
 
 		bool Load(const std::string& filename);
 		void Read(const json_t& value);
 
 		template<typename T>
 		T* GetActor();
-
+		template<typename T = Actor>
+		T* GetActorByName(const std::string& name);
+	
 		friend class Actor;
 
 	private:
@@ -43,6 +45,21 @@ namespace umbra
 			if (result) return result;
 		}
 
+		return nullptr;
+	}
+
+	template <typename T>
+	T* Scene::GetActorByName(const std::string& name)
+	{
+		for (auto& actor : m_actors)
+		{
+			if (actor->name == name)
+			{
+				T* result = dynamic_cast<T*> (actor.get()); //getting pointer
+				if (result) return result;
+
+			}
+		}
 		return nullptr;
 	}
 }

@@ -1,3 +1,5 @@
+INFO: Class registered: Weapon
+INFO: Class registered: TextRenderComponent
 INFO: Class registered: SpriteComponent
 INFO: Class registered: ModelRenderComponent
 INFO: Class registered: EnginePhysicsComponent

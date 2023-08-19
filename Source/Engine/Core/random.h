@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 
-//maple calls this kiko in his stuff!
+//maple calls this umbra in his stuff!
 namespace umbra
 {
 	//inlines replaces the function name with the functions code

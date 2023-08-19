@@ -1,11 +1,17 @@
 #include "Projectile.h"
-#include "Framework/Framework.h"
+#include "Core/Core.h"
 #include "Renderer/Renderer.h"
+#include "Framework/Framework.h"
+#include "Framework/Components/CollisionComponent.h"
 
 namespace umbra
 {
+    CLASS_DEFINITION(Weapon)
+
     bool Weapon::Initialize() 
     {
+        Actor::Initialize();
+
         auto collisionComponent = GetComponent<CollisionComponent>(); //get the actor that owns us since we're just a component now
         if (collisionComponent)
         {
@@ -36,8 +42,10 @@ namespace umbra
             SetDestroyed(true);
         }
     }
+
     void Weapon::Read(const json_t& value)
     {
-        //
+        Actor::Read(value);
+        READ_DATA(value, speed);
     }
 }
