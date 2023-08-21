@@ -7,8 +7,8 @@
 #include "Renderer/Renderer.h"
 
 #include "Input/InputSystem.h"
-
 #include "Audio/AudioSystem.h"
+#include "Physics/PhysicsSystem.h"
 
 #include <thread>
 #include <iostream> //searches the system instead
@@ -77,6 +77,7 @@ int main(int argc, char* argv[])
 
 	umbra::g_inputSystem.Initialize();
 	umbra::g_audioSystem.Initialize();
+	umbra::PhysicsSystem::Instance().Initialize();
 
 	unique_ptr<SpaceRanch> game = make_unique<SpaceRanch>();
 	game->Initialize();

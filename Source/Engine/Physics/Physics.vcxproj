@@ -19,34 +19,34 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>16.0</VCProjectVersion>
+    <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{263a328f-e0a4-428a-bb57-8efde6ee00b0}</ProjectGuid>
-    <RootNamespace>Game</RootNamespace>
+    <ProjectGuid>{e3502200-590c-43c5-862c-0831b2c2bac4}</ProjectGuid>
+    <RootNamespace>Physics</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -74,19 +74,16 @@
     <Import Project="..\..\ProperySheets\Common.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(BinDir)</OutDir>
-    <IntDir>$(TempDir)</IntDir>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>
+      </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -96,11 +93,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>
+      </SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -110,19 +108,18 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Source\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>
+      </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalOptions>/WHOLEARCHIVE:Framework %(AdditionalOptions)</AdditionalOptions>
     </Link>
-    <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)Bin$(PlatformName)$(Configuration)$(ProjectName)*.exe" "$(SolutionDir)Build" /Y</Command>
-    </PostBuildEvent>
+    <Lib>
+      <AdditionalLibraryDirectories>$(ThirdPartyDir)box2d\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>box2d.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -130,53 +127,22 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>
+      </SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Health.cpp" />
-    <ClCompile Include="Projectile.cpp" />
-    <ClCompile Include="SpaceRanch.cpp" />
+    <ClCompile Include="PhysicsSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Engine\Audio\Audio.vcxproj">
-      <Project>{fc8ac951-7bb7-4dc3-bfdf-aeea3eed9be9}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Engine\Core\Core.vcxproj">
-      <Project>{2e09a753-3084-4c98-a6b2-eab18911a2f7}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Engine\Framework\Framework.vcxproj">
-      <Project>{4428cf66-dbda-487f-a7ca-450a8df9522b}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Engine\Input\Input.vcxproj">
-      <Project>{a10c7a80-e6dc-4a36-8a25-ebf8ed160e92}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Engine\Physics\Physics.vcxproj">
-      <Project>{e3502200-590c-43c5-862c-0831b2c2bac4}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Engine\Renderer\Renderer.vcxproj">
-      <Project>{ce920486-2f3f-4696-9435-4a1a16e8a7cb}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Health.h" />
-    <ClInclude Include="Projectile.h" />
-    <ClInclude Include="SpaceRanch.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\..\..\Build\Assets\scene.json" />
+    <ClInclude Include="PhysicsSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
