@@ -1,5 +1,6 @@
 #include "TextRenderComponent.h"
 #include "Framework/Resources/ResourceManager.h"
+#include "Framework/Actor.h"
 
 namespace umbra
 {
@@ -40,7 +41,7 @@ namespace umbra
 		// draw text
 
 		//Where do i pull the transform from, am i stupid?
-		//m_text->Draw(renderer, m_owner->transform); // use renderer and transform
+		m_text->Draw(renderer, m_owner->transform); // use renderer and transform
 	}
 
 	void TextRenderComponent::SetText(const std::string& string)

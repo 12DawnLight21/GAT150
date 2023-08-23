@@ -2,7 +2,10 @@
 #include "Framework/Game.h"
 #include "Renderer/Text.h"
 
-class SpaceRanch : public umbra::Game
+#include "Framework/Events/Event.h"
+#include "Framework/Events/EventManager.h"
+
+class SpaceRanch : public umbra::Game, public umbra::IEventListener
 {
 public:
 	enum eState
@@ -26,6 +29,9 @@ public:
 	virtual void Draw(umbra::Renderer& renderer) override;
 
 	void SetState(eState state) { m_state = state; }
+
+	virtual void OnAddPoints(const umbra::Event& event);
+	void OnPlayerDead(const umbra::Event& event);
 
 private:
 	eState m_state = eState::Title;

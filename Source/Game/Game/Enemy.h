@@ -1,31 +1,31 @@
 #pragma once
 #include "Framework/Actor.h"
+#include "Framework/Components/PhysicsComponent.h"
 
-class Enemy : public umbra::Actor
+namespace umbra
 {
-public:
-	Enemy(float speed, float turnRate, const umbra::Transform transformm) :
-		Actor{ transformm },
-		m_speed{ speed },
-		m_turnRate{ turnRate }
+	class Enemy : public Actor
 	{
-		m_fireRate = 3.0f;
-		m_fireTimer = m_fireRate;
+
+	public:
+	CLASS_DECLARATION(Enemy)
+		Enemy() = default;
+
+		bool Initialize() override;
+
+		void Update(float dt) override;
+		void OnCollision(Actor* oother) override;
+
+
+	private:
+		float speed = 0;
+		float turnRate = 0;
+
+		float fireRate = 0;
+		float fireTimer = 0; //how often it shoots
+
+		float m_health = 10;
+
+		PhysicsComponent* m_physicsComponent = nullptr;
 	};
-
-	bool Initialize() override;
-
-	void Update(float dt) override;
-	void OnCollision(Actor* oother) override;
-
-
-private:
-	float m_speed = 0;
-	float m_turnRate = 0;
-
-	float m_fireRate = 0; 
-	float m_fireTimer = 0; //how often it shoots
-
-	float m_health = 10;
-	//float m_damage = 10;
-};
+}

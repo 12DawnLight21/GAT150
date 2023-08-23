@@ -38,7 +38,8 @@ void Player::Update(float dt)
 	float rotate = 0;
 	if (umbra::g_inputSystem.getKeyDown(SDL_SCANCODE_A)) rotate = -1;
 	if (umbra::g_inputSystem.getKeyDown(SDL_SCANCODE_D)) rotate = 1;
-	transform.rotation += rotate * m_turnRate * umbra::g_time.GetDeltaTime();
+	//transform.rotation += rotate * m_turnRate * umbra::g_time.GetDeltaTime();
+	m_physicsComponent->ApplyTorque(rotate * m_turnRate); //box2d already grabs deltatime
 
 	float thrust = 0;
 	if (umbra::g_inputSystem.getKeyDown(SDL_SCANCODE_W)) thrust = 1;
@@ -50,12 +51,13 @@ void Player::Update(float dt)
 	transform.position.x = umbra::Wrap(transform.position.x, (float)umbra::g_renderer.GetWidth());
 	transform.position.y = umbra::Wrap(transform.position.y, (float)umbra::g_renderer.GetHeight());
 
-
-	//auto player = INSTANTIATE(Player, "player");
-	//player->m_game = this; //error??? in my code??
-	//player->Initialize();
-	//m_scene->Add(std::move(player));
-
+	if (umbra::g_inputSystem.getKeyDown(SDL_SCANCODE_SPACE) && !umbra::g_inputSystem.getPreviousKeyDown(SDL_SCANCODE_SPACE))
+	{
+		auto weapon = INSTANTIATE(umbra::Weapon, "Rocket");
+		weapon->transform = { transform.position, transform.rotation, 1.0f };
+		weapon->Initialize();
+		m_scene->Add(std::move(weapon));
+	}
 }
 
 void Player::OnCollision(Actor* other)

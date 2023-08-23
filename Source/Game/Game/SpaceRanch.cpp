@@ -9,6 +9,7 @@
 
 #include "Audio/AudioSystem.h"
 #include "Input/InputSystem.h"
+#include "Framework/Events/EventManager.h"
 
 
 bool SpaceRanch::Initialize()
@@ -43,6 +44,8 @@ bool SpaceRanch::Initialize()
 	m_scene = std::make_unique<umbra::Scene>();
 	m_scene->Load("scene.json");
 	m_scene->Initialize();
+	EVENT_SUBSCRIBE("OnAddPoints", SpaceRanch::OnAddPoints);
+	EVENT_SUBSCRIBE("OnPlayerDead", SpaceRanch::OnPlayerDead);
 
 	return true;
 }
@@ -78,14 +81,14 @@ void SpaceRanch::Update(float dt)
 		{
 			//Create Player
 			m_scene->RemoveAll(true);
+
 			auto player = std::make_unique<Player>(10.0f, umbra::Pi, umbra::Transform{ {400, 300}, 0, 1 });
 			player->tag = "Player";
 			player->m_game = this;
 
 			//create Components
-			auto renderComponent = CREATE_NAMESPACE_CLASS(SpriteComponent); //umbra::Factory::Instance().Create<umbra::SpriteComponent>("SpriteComponent"); //original >>>> std::make_unique<umbra::SpriteComponent>();
+			auto renderComponent = CREATE_NAMESPACE_CLASS(SpriteComponent);
 			renderComponent->m_texture = GET_RESOURCE(umbra::Texture, "playership.png", umbra::g_renderer);
-			//renderComponent->m_texture = umbra::g_resources.Get<umbra::Texture>("playership.png", umbra::g_renderer);
 			player->AddComponent(std::move(renderComponent));
 
 			//adding physics
@@ -120,31 +123,31 @@ void SpaceRanch::Update(float dt)
 		m_spawnTimer += dt;
 		m_powerTimer += dt;
 
-		if (m_spawnTimer >= m_spawnTime)
-		{
-			m_spawnTimer = 0;
+		//if (m_spawnTimer >= m_spawnTime)
+		//{
+		//	m_spawnTimer = 0;
 
-			//added this before i was supposed too i think
-			auto enemy = std::make_unique<Enemy>(umbra::randomf(75.0f, 150.0f), umbra::Pi, umbra::Transform{{400, 300}, 0, 1});
-			enemy->tag = "Enemy";
-			enemy->m_game = this;
+		//	//added this before i was supposed too i think
+		//	auto enemy = std::make_unique<umbra::Enemy>(umbra::randomf(75.0f, 150.0f), umbra::Pi, umbra::Transform{{400, 300}, 0, 1});
+		//	enemy->tag = "Enemy";
+		//	enemy->m_game = this;
 
-			auto renderComponent = umbra::Factory::Instance().Create<umbra::SpriteComponent>("SpriteComponent");
-			renderComponent->m_texture = GET_RESOURCE(umbra::Texture, "playership.png", umbra::g_renderer);
-			enemy->AddComponent(std::move(renderComponent));
+		//	auto renderComponent = umbra::Factory::Instance().Create<umbra::SpriteComponent>("SpriteComponent");
+		//	renderComponent->m_texture = GET_RESOURCE(umbra::Texture, "playership.png", umbra::g_renderer);
+		//	enemy->AddComponent(std::move(renderComponent));
 
-			//adding physics
-			auto physicsComponent = std::make_unique<umbra::EnginePhysicsComponent>(); 
-			physicsComponent->m_damping = 0.5f; 
-			enemy->AddComponent(std::move(physicsComponent)); 
+		//	//adding physics
+		//	auto physicsComponent = std::make_unique<umbra::EnginePhysicsComponent>(); 
+		//	physicsComponent->m_damping = 0.5f; 
+		//	enemy->AddComponent(std::move(physicsComponent)); 
 
-			auto collisionComponent = std::make_unique<umbra::CircleCollisionComponent>(); 
-			collisionComponent->m_radius = 30.0f; 
-			enemy->AddComponent(std::move(collisionComponent)); 
+		//	auto collisionComponent = std::make_unique<umbra::CircleCollisionComponent>(); 
+		//	collisionComponent->m_radius = 30.0f; 
+		//	enemy->AddComponent(std::move(collisionComponent)); 
 
-			enemy->Initialize(); 
-			m_scene->Add(std::move(enemy)); 
-		}
+		//	enemy->Initialize(); 
+		//	m_scene->Add(std::move(enemy)); 
+		//}
 
 		if (m_powerTimer >= m_powerTime)
 		{
@@ -265,4 +268,15 @@ void SpaceRanch::Draw(umbra::Renderer& renderer)
 	m_scoreText->Draw(renderer, 40, 40);
 	m_lifeText->Draw(renderer, 40, 80);
 	umbra::g_particleSystem.Draw(renderer);
+}
+
+void SpaceRanch::OnAddPoints(const umbra::Event& event)
+{
+	m_score += std::get<int>(event.data);
+}
+
+void SpaceRanch::OnPlayerDead(const umbra::Event& event)
+{
+	m_lives--;
+	m_state = eState::StartLevel;
 }

@@ -13,5 +13,6 @@ namespace umbra
 		virtual void Update(float dt) override;
 		virtual void ApplyForce(const vec2& force) override;
 
+		void ApplyTorque(float torque) override;
 	};
 }

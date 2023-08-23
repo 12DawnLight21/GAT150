@@ -48,29 +48,6 @@ int main(int argc, char* argv[])
 	umbra::seedRandom((unsigned int)time(nullptr));
 	umbra::setFilePath("assets");
 
-	//json file reading
-	rapidjson::Document document;
-	umbra::Json::Load("json.txt", document);
-	int i1;
-	umbra::Json::Read(document, "integer1", i1); //integer1 is the key in the json file, i1 is where we put that data
-	std::cout << i1 << std::endl;
-	int i2;
-	umbra::Json::Read(document, "integer2", i2);
-	std::cout << i2 << std::endl;
-
-	std::string str;
-	umbra::Json::Read(document, "string", str);
-	std::cout << str << std::endl;
-	bool b;
-	umbra::Json::Read(document, "boolean", b);
-	std::cout << b << std::endl;
-	float f;
-	umbra::Json::Read(document, "float", f);
-	std::cout << f << std::endl;
-	umbra::vec2 v2;
-	umbra::Json::Read(document, "vector2", v2);
-	std::cout << v2 << std::endl;
-
 	//our window setup
 	umbra::g_renderer.Initialize();
 	umbra::g_renderer.CreateWindow("GAT150", 800, 600);
@@ -99,9 +76,12 @@ int main(int argc, char* argv[])
 	{
 		//update engine
 		umbra::g_time.Tick();
-		umbra::g_inputSystem.Update(); //checks for input updates 
-		umbra::g_audioSystem.Update(); //updates the audio systems
+		umbra::g_inputSystem.Update();
+		umbra::g_audioSystem.Update();
+
 		umbra::g_particleSystem.Update(umbra::g_time.GetDeltaTime());
+
+		umbra::PhysicsSystem::Instance().Update(umbra::g_time.GetDeltaTime());
 
 		//update game
 		game->Update(umbra::g_time.GetDeltaTime());

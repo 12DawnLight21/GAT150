@@ -5,8 +5,11 @@
 			"name": "Background",
 			"persistent": true,
 			"transform": {
-				"position": [ 400, 300 ],
-				"scale": 1,
+				"position": [
+					400,
+					300
+				],
+				"scale": 4,
 				"rotation": 0
 			},
 			"components": [
@@ -20,10 +23,13 @@
 			"type": "Weapon",
 			"name": "Rocket",
 			"prototype": true,
-			"tag": "PlayerBullet",
+			"tag": "PlayerWeapon",
 			"lifespan": 2,
 			"transform": {
-				"position": [ 400, 300 ],
+				"position": [
+					400,
+					300
+				],
 				"scale": 1.0,
 				"rotation": 0
 			},
@@ -35,6 +41,88 @@
 				},
 				{
 					"type": "CircleCollisionComponent"
+				}
+			]
+		},
+		{
+			"type": "Player",
+			"name": "Player",
+			"prototype": true,
+			"tag": "Player",
+			"transform": {
+				"position": [
+					400,
+					300
+				],
+				"scale": 1.0,
+				"rotation": 0
+			},
+			"speed": 20,
+			"turnRate": 2.0,
+			"components": [
+				{
+					"type": "SpriteComponent",
+					"textureName": "playership.png"
+				},
+				{
+					"type": "Box2dPhysicsComponent",
+					"damping":  0.98,
+					"angularDamping": 2,
+					"gravityScale": 0
+				},
+				{
+					"type": "Box2DCollsionComponent",
+					"size": [ 32, 32 ]
+				}
+			]
+		},
+		{
+			"type": "Enemy",
+			"name": "Enemy",
+			"prototype": true,
+			"tag": "Enemy",
+			"transform": {
+				"position": [ 200, 100 ],
+				"scale": 1.0,
+				"rotation": 0
+			},
+			"speed": 8,
+			"turnRate": 0.5,
+			"components": [
+				{
+					"type": "SpriteComponent",
+					"textureName": "playership.png"
+				},
+				{
+					"type": "Box2dPhysicsComponent",
+					"damping": 0.98,
+					"angularDamping": 2,
+					"gravityScale": 0
+				},
+				{
+					"type": "Box2DCollsionComponent",
+					"size": [ 32, 32 ]
+				}
+			]
+		},
+		{
+			"type": "Actor",
+			"name": "Title",
+			"persistent": true,
+			"transform": {
+				"position": [
+					400,
+					300
+				],
+				"scale": 2,
+				"rotation": 0
+			},
+			"components": [
+				{
+					"type": "TextRenderComponent",
+					"fontName": "MinecraftRegular.ttf",
+					"fontSize": 48,
+					"text": "SpaceGame"
 				}
 			]
 		}

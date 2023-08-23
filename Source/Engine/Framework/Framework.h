@@ -14,7 +14,10 @@
 #include "Components/ModelRenderComponent.h"
 #include "Components/PhysicsComponent.h"
 #include "Components/EnginePhysicsComponent.h"
+
 #include "Components/CollisionComponent.h"
 #include "Components/CircleCollisionComponent.h"
+#include "Components/Box2dPhysicsComponent.h"
+#include "Components/Box2dPhysicsCollisionComponent.h"
 
 #include "Factory.h"
