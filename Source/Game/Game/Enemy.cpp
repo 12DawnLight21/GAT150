@@ -61,7 +61,7 @@ namespace umbra
 		transform.position.y = Wrap(transform.position.y, (float)g_renderer.GetHeight());
 	}
 
-	void Enemy::OnCollision(Actor* other)
+	void Enemy::OnCollisionEnter(Actor* other)
 	{
 		if (other->tag == "PlayerBullet" || other->tag == "Player")
 		{
@@ -95,10 +95,10 @@ namespace umbra
 	void Enemy::Read(const json_t& value)
 	{
 		Actor::Read(value);
+
 		READ_DATA(value, speed);
 		READ_DATA(value, turnRate);
 		READ_DATA(value, fireRate);
-		READ_DATA(value, fireTimer);
 	}
 
 }

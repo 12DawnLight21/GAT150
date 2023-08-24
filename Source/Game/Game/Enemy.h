@@ -8,13 +8,13 @@ namespace umbra
 	{
 
 	public:
-	CLASS_DECLARATION(Enemy)
+		CLASS_DECLARATION(Enemy)
 		Enemy() = default;
 
 		bool Initialize() override;
 
 		void Update(float dt) override;
-		void OnCollision(Actor* oother) override;
+		void OnCollisionEnter(Actor* oother) override;
 
 
 	private:

@@ -2,6 +2,8 @@
 #include "Framework/Singleton.h"
 #include "Core/Math/Vector2.h"
 #include "box2d/include/box2d/b2_world.h"
+#include "ContactListener.h"
+
 #include <box2d/include/box2d/box2d.h>
 
 #include <memory>
@@ -54,5 +56,6 @@ namespace umbra
 		float m_pixelsPerUnit = 48.0f;
 
 		std::unique_ptr<b2World> m_world;
+		std::unique_ptr<ContactListener> m_contactListener;
 	};
 }

@@ -15,7 +15,7 @@ class Health : public umbra::Actor
 		}
 
 		void Update(float dt) override;
-		void OnCollision(Actor* other) override;
+		void OnCollisionEnter(Actor* other) override;
 
 		friend class Player;
 

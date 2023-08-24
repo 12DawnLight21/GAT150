@@ -14,7 +14,7 @@ void Health::Update(float dt)
 
 }
 
-void Health::OnCollision(Actor* other)
+void Health::OnCollisionEnter(Actor* other)
 {
 	if (other->tag == "Player")
 	{

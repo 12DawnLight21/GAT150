@@ -16,6 +16,8 @@ namespace umbra
 		virtual float GetRadius() override { return m_model->GetRadius(); }
 
 	public:
+		ModelRenderComponent() = default;
+
 		std::string modelName;
 		res_t<Model> m_model;
 	};

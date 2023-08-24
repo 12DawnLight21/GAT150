@@ -6,22 +6,22 @@ struct SDL_Texture;
 
 namespace umbra
 {
-	class Texture : public Resource
-	{
-	public:
-		Texture() = default;
-		~Texture();
+    class Texture : public Resource
+    {
+    public:
+        Texture() = default;
+        ~Texture();
 
-		virtual bool Create(std::string filename, ...) override;
+        virtual bool Create(std::string filename, ...) override;
 
-		bool Load(const std::string& filename, class Renderer& renderer);
-		vec2 GetSize();
+        bool Load(const std::string filename, class Renderer& renderer);
+        vec2 GetSize();
 
-		SDL_Texture* GetTexture() { return m_texture; }
+        SDL_Texture* GetTexture() const { return m_texture; }
 
-		friend class Renderer;
+        friend class Renderer;
 
-	private:
-		SDL_Texture* m_texture = nullptr;
-	};
+    private:
+        SDL_Texture* m_texture = nullptr;
+    };
 }

@@ -7,7 +7,7 @@
 #include <string>
 
 #define CREATE_NAMESPACE_CLASS(classname) umbra::Factory::Instance().Create<umbra::classname>(#classname);
-#define CREATE_NAMESPACE_CLASSBASE(classbase, classname) umbra::Factory::Instance().Create<umbra::classbase>(classname); //MICHAEL NEEDS THIS //maple calls this create_class_base!!
+#define CREATE_NAMESPACE_CLASSBASE(classbase, classname) umbra::Factory::Instance().Create<umbra::classbase>(classname);
 #define INSTANTIATE(classbase, classname) umbra::Factory::Instance().Create<classbase>(classname);
 
 namespace umbra

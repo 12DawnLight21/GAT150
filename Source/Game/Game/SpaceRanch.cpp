@@ -42,7 +42,7 @@ bool SpaceRanch::Initialize()
 
 	//create scene
 	m_scene = std::make_unique<umbra::Scene>();
-	m_scene->Load("scene.json");
+	m_scene->Load("spacescene.json");
 	m_scene->Initialize();
 	EVENT_SUBSCRIBE("OnAddPoints", SpaceRanch::OnAddPoints);
 	EVENT_SUBSCRIBE("OnPlayerDead", SpaceRanch::OnPlayerDead);
@@ -82,28 +82,16 @@ void SpaceRanch::Update(float dt)
 			//Create Player
 			m_scene->RemoveAll(true);
 
-			auto player = std::make_unique<Player>(10.0f, umbra::Pi, umbra::Transform{ {400, 300}, 0, 1 });
-			player->tag = "Player";
-			player->m_game = this;
-
-			//create Components
-			auto renderComponent = CREATE_NAMESPACE_CLASS(SpriteComponent);
-			renderComponent->m_texture = GET_RESOURCE(umbra::Texture, "playership.png", umbra::g_renderer);
-			player->AddComponent(std::move(renderComponent));
-
-			//adding physics
-			auto physicsComponent = std::make_unique<umbra::EnginePhysicsComponent>();
-			physicsComponent->m_damping = 0.5f;
-			player->AddComponent(std::move(physicsComponent));
-
-			auto collisionComponent = std::make_unique<umbra::CircleCollisionComponent>();
-			collisionComponent->m_radius = 30.0f;
-			player->AddComponent(std::move(collisionComponent));
-
+			auto player = INSTANTIATE(umbra::Player, "Player");
+			player->transform = umbra::Transform{ { 400, 300 }, 0, 1 };
 			player->Initialize();
 			m_scene->Add(std::move(player));
-		}
 
+			/*auto enemy = INSTANTIATE(umbra::Enemy, "Enemy");
+			enemy->transform = umbra::Transform{ { umbra::random(800), umbra::random(600) }, umbra::randomf(umbra::TwoPi), 1 };
+			enemy->Initialize();
+			m_scene->Add(std::move(enemy));*/
+		}
 			m_state = eState::Tutorial;
 		break;
 

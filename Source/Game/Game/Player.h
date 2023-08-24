@@ -1,23 +1,31 @@
 #pragma once
 #include "Framework/Framework.h"
+#include "Framework/Components/PhysicsComponent.h"
 
-class Player : public umbra::Actor
+namespace umbra
 {
-public:
-	Player(float speed, float turnRate, const umbra::Transform transform) :
-		Actor{ transform },
-		m_speed{speed},
-		m_turnRate{turnRate}
-	{};
+	class Player : public Actor
+	{
+	public:
+		CLASS_DECLARATION(Player)
 
-	bool Initialize() override;
+		Player() = default;
 
-	void Update(float dt) override;
-	void OnCollision(Actor* other) override;
+		/*Player(float speed, float turnRate, const Transform transform) :
+			Actor{ transform },
+			m_speed{ speed },
+			m_turnRate{ turnRate }
+		{};*/
 
-private:
-	float m_speed = 0;
-	float m_turnRate = 0;
+		bool Initialize() override;
 
-	umbra::PhysicsComponent* m_physicsComponent = nullptr;
-};
+		void Update(float dt) override;
+		void OnCollisionEnter(Actor* other) override;
+
+	private:
+		float speed = 0;
+		float turnRate = 0;
+
+		PhysicsComponent* m_physicsComponent = nullptr;
+	};
+}

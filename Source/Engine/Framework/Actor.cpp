@@ -69,7 +69,7 @@ namespace umbra
 	void Actor::AddComponent(std::unique_ptr<Component> component)
 	{
 		component->m_owner = this;
-		components.push_back(std::move(component)); //this gives me error ;/
+		components.push_back(std::move(component));
 	}
 
 	void Actor::Read(const json_t& value)

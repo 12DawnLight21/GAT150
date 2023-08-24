@@ -16,41 +16,37 @@ namespace umbra
 
         va_start(args, filename);
 
-        Renderer& renderer = va_arg(args, Renderer); 
+        Renderer& renderer = va_arg(args, Renderer);
 
         va_end(args);
 
         return Load(filename, renderer);
     }
 
-    bool Texture::Load(const std::string& filename, Renderer& renderer)
+    bool Texture::Load(const std::string filename, Renderer& renderer)
     {
         SDL_Surface* surface = IMG_Load(filename.c_str());
         if (!surface)
         {
-            WARNING_LOG("Filename " << " is invalid. Check your spelling!");
+            WARNING_LOG("File not found" << filename);
             return false;
         }
-
         m_texture = SDL_CreateTextureFromSurface(renderer.m_renderer, surface);
         SDL_FreeSurface(surface);
         if (!m_texture)
         {
-            WARNING_LOG("m_texture is NULL.");
+            WARNING_LOG("Texture not found" << filename);
             return false;
         }
         return true;
     }
-
     vec2 Texture::GetSize()
     {
-        //assert if null??? 
-        //ASSERT_LOG(!m_texture, "m_texture is NULL.");
-
+        // ASSERT texture is not null
         SDL_Point point;
+        //https://wiki.libsdl.org/SDL2/SDL_QueryTexture
+
         SDL_QueryTexture(m_texture, nullptr, nullptr, &point.x, &point.y);
-        return vec2{ point.x, point.y };
+        return vec2{ static_cast<float>(point.x), static_cast<float>(point.y) };
     }
-
-
 }

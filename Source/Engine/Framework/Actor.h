@@ -25,8 +25,8 @@ namespace umbra
 		template<typename T>
 		T* GetComponent();
 
-		float GetRadius() { return 30.0f; }
-		virtual void OnCollision(Actor* other) {};
+		virtual void OnCollisionEnter(Actor* other) {};
+		virtual void OnCollisionExit(Actor* other) {};
 
 		float GetLifespan() { return lifespan; };
 		float SetLifespan(float lifespan) { return lifespan = lifespan; };
@@ -44,11 +44,11 @@ namespace umbra
 		std::string tag;
 		bool persistent = false;
 		bool prototype = false;
+		bool destroyed = false; //a flag
 
 	protected:
 		std::vector<std::unique_ptr<Component>> components;
 
-		bool destroyed = false; //a flag
 		float lifespan = -1.0f;
 	};
 

@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Source\Game\Game\Ga
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Physics", "Source\Engine\Physics\Physics.vcxproj", "{E3502200-590C-43C5-862C-0831B2C2BAC4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RectangleGuyToo", "Source\Game\RectangleGuyToo\RectangleGuyToo.vcxproj", "{B84F6E00-ACE3-40AA-A543-CA19AAB6261E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -85,6 +87,14 @@ Global
 		{E3502200-590C-43C5-862C-0831B2C2BAC4}.Release|x64.Build.0 = Release|x64
 		{E3502200-590C-43C5-862C-0831B2C2BAC4}.Release|x86.ActiveCfg = Release|Win32
 		{E3502200-590C-43C5-862C-0831B2C2BAC4}.Release|x86.Build.0 = Release|Win32
+		{B84F6E00-ACE3-40AA-A543-CA19AAB6261E}.Debug|x64.ActiveCfg = Debug|x64
+		{B84F6E00-ACE3-40AA-A543-CA19AAB6261E}.Debug|x64.Build.0 = Debug|x64
+		{B84F6E00-ACE3-40AA-A543-CA19AAB6261E}.Debug|x86.ActiveCfg = Debug|Win32
+		{B84F6E00-ACE3-40AA-A543-CA19AAB6261E}.Debug|x86.Build.0 = Debug|Win32
+		{B84F6E00-ACE3-40AA-A543-CA19AAB6261E}.Release|x64.ActiveCfg = Release|x64
+		{B84F6E00-ACE3-40AA-A543-CA19AAB6261E}.Release|x64.Build.0 = Release|x64
+		{B84F6E00-ACE3-40AA-A543-CA19AAB6261E}.Release|x86.ActiveCfg = Release|Win32
+		{B84F6E00-ACE3-40AA-A543-CA19AAB6261E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +107,7 @@ Global
 		{CE920486-2F3F-4696-9435-4A1A16E8A7CB} = {9EE556EE-B3A5-4BA5-BC36-6DC7C79B5904}
 		{263A328F-E0A4-428A-BB57-8EFDE6EE00B0} = {3A6EFDC8-F96F-41C7-B082-194291F90615}
 		{E3502200-590C-43C5-862C-0831B2C2BAC4} = {9EE556EE-B3A5-4BA5-BC36-6DC7C79B5904}
+		{B84F6E00-ACE3-40AA-A543-CA19AAB6261E} = {3A6EFDC8-F96F-41C7-B082-194291F90615}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AA00F8C5-F291-4E90-97FF-24EEA3AC2B79}
