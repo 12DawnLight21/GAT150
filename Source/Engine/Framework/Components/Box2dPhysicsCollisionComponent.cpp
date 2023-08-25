@@ -1,5 +1,6 @@
 #include "Box2dPhysicsCollisionComponent.h"
 #include "Box2DPhysicsComponent.h"
+#include "SpriteComponent.h" //and this
 #include "Framework/Actor.h"
 
 namespace umbra
@@ -11,6 +12,16 @@ namespace umbra
 		auto component = m_owner->GetComponent<Box2DPhysicsComponent>();
 		if (component)
 		{
+			//michael needs this
+			if (data.size.x == 0 && data.size.y == 0)
+			{
+				auto spriteComponent = m_owner->GetComponent<SpriteComponent>();
+				if (spriteComponent)
+				{
+					data.size = vec2{spriteComponent->source.w, spriteComponent->source.h};
+				}
+			}
+
 			data.size = data.size * scaleOffset * m_owner->transform.scale;
 
 			if (component->m_body->GetType() == b2_staticBody)

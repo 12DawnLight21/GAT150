@@ -9,13 +9,44 @@
           400,
           300
         ],
-        "scale": 1,
+        "scale": 2.5,
         "rotation": 0
       },
       "components": [
         {
           "type": "SpriteComponent",
           "textureName": "textures/background.png"
+        }
+      ]
+    },
+    {
+      "type": "Actor",
+      "name": "Coin",
+      "persistent": true,
+      "transform": {
+        "position": [
+          400,
+          300
+        ],
+        "scale": 1,
+        "rotation": 0
+      },
+      "components": [
+        {
+          "type": "SpriteAnimComponent",
+          "textureName": "textures/coin.png",
+          "defaultSequence": "idle",
+          "sequences": [
+            {
+              "name": "idle",
+              "fps": 12,
+              "numColumns": 8,
+              "numRows": 1,
+              "startFrame": 1,
+              "endFrame": 8,
+              "textureName": "textures/coin.png"
+            }
+          ]
         }
       ]
     },
@@ -35,8 +66,9 @@
         {
           "type": "TextRenderComponent",
           "fontName": "MinecraftRegular.ttf",
-          "fontSize": 44,
-          "text": "RectangleGug"
+          "fontSize": 40,
+          "text": "Erect Grug",
+          "color": [ 0, 1, 1, 1 ]
         }
       ]
     }

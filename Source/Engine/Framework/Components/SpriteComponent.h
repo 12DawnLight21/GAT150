@@ -17,6 +17,7 @@ namespace umbra
 		virtual float GetRadius() { return m_texture->GetSize().Length() * 0.5f; }
 
 	public:
+		Rect source; //stores the source rect // MICHAEELLLLLL DONT LEAVE ME HERE
 		std::string textureName;
 		res_t<Texture> m_texture;
 	};

@@ -15,11 +15,13 @@ namespace umbra
         Color() : r{ 0 }, g{ 0 }, b{ 0 }, a{ 1 } {}
         Color(float r, float g, float b, float a) : r{ r }, g{ g }, b{ b }, a{ a } {}
 
+        float operator [] (size_t index) const { return (&r)[index]; } //gets the address of first variable to get the next ones
+        float& operator [] (size_t index) { return (&r)[index]; } //micheal also needs this
+
         static uint8_t ToInt(float c) { return static_cast<uint8_t>(Clamp(c, 0.0f, 1.0f) * 255); }
 
-        //friend std::istream& operator >> (std::istream& stream, Color& color);
-
     };
+
     inline std::istream& operator >> (std::istream& stream, Color& color)
     {
 

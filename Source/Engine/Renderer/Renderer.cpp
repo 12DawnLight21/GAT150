@@ -78,7 +78,7 @@ namespace umbra
 		dest.w = (int)size.x;
 		dest.h = (int)size.y;
 
-		SDL_RenderCopyEx(m_renderer, texture->GetTexture(), nullptr, &dest, angle, nullptr, SDL_FLIP_NONE);
+		SDL_RenderCopyEx(m_renderer, texture->m_texture, nullptr, &dest, angle, nullptr, SDL_FLIP_NONE);
 	}
 
 	void Renderer::DrawTexture(Texture* texture, const Transform& transform)
@@ -95,7 +95,25 @@ namespace umbra
 		dest.w = (int)size.x;
 		dest.h = (int)size.y;
 
-		SDL_RenderCopyEx(m_renderer, texture->GetTexture(), nullptr, &dest, umbra::RadToDeg(mx.GetRotation()), nullptr, SDL_FLIP_NONE);
+		SDL_RenderCopyEx(m_renderer, texture->m_texture, nullptr, &dest, umbra::RadToDeg(mx.GetRotation()), nullptr, SDL_FLIP_NONE);
+	}
+
+	//he needs this too ;3
+	void Renderer::DrawTexture(Texture* texture, const Rect& source, const Transform& transform)
+	{
+		mat3 mx = transform.GetMatrix();
+
+		vec2 position = mx.GetTranslation();
+		vec2 size = vec2{ source.w, source.h} * mx.GetScale();
+
+
+		SDL_Rect dest;
+		dest.x = (int)(position.x - (size.x * 0.5f));
+		dest.y = (int)(position.y - (size.y * 0.5f));
+		dest.w = (int)size.x;
+		dest.h = (int)size.y;
+
+		SDL_RenderCopyEx(m_renderer, texture->m_texture, (SDL_Rect*)(&source) , &dest, umbra::RadToDeg(mx.GetRotation()), nullptr, SDL_FLIP_NONE);
 	}
 	
 }

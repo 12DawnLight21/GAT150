@@ -21,6 +21,7 @@ namespace umbra
 		std::string text;
 		std::string fontName;
 		int fontSize = 0;
+		Color color; //add this for michael
 
 	private:
 		bool m_changed = true;

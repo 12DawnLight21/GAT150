@@ -1,6 +1,9 @@
 #pragma once
 #include "radpidjson/include/rapidjson/document.h"
 #include "Math/Vector2.h"
+#include "Math/Color.h"
+#include "Math/Rect.h"
+
 #include <string>
 
 #define READ_DATA(value, data) umbra::Json::Read(value, #data, data);
@@ -25,6 +28,9 @@ namespace umbra
 		static bool Read(const rapidjson::Value& value, const std::string& name, std::string& data, bool required = false);
 
 		static bool Read(const rapidjson::Value& value, const std::string& name, Vector2& data, bool required = false);
+
+		static bool Read(const rapidjson::Value& value, const std::string& name, Color& data, bool required = false); //michael needs this
+		static bool Read(const rapidjson::Value& value, const std::string& name, Rect& data, bool required = false); //michael needs this
 	};
 
 	using json_t = rapidjson::Value;

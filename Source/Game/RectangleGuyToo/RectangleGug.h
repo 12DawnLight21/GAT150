@@ -36,8 +36,8 @@ public:
 private:
 	eState m_state = eState::Title;
 	float m_spawnTimer = 0;
-	float m_spawnTime = 2.5f; //every 3 secs, spawn enemy
+	float m_spawnTime = 2.5f;
 
 	float m_powerTimer = 0;
-	float m_powerTime = 8.0f; //every 8 secs, spawn powerup
+	float m_powerTime = 8.0f;
 };

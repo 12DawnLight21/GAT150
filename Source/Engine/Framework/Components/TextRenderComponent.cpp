@@ -31,22 +31,19 @@ namespace umbra
 
 	void TextRenderComponent::Draw(Renderer& renderer)
 	{
-		// update the text if changed
 		if (m_changed)
 		{
 			m_changed = false;
-			// create text using text string and color
-			m_text->Create(renderer, text, { 1, 1, 1, 1 });
+
+			m_text->Create(renderer, text, color); //change 1111 to color // FOR MICHAEL
 		}
 		// draw text
 
-		//Where do i pull the transform from, am i stupid?
 		m_text->Draw(renderer, m_owner->transform); // use renderer and transform
 	}
 
 	void TextRenderComponent::SetText(const std::string& string)
 	{
-		// check if text has changed, if changed set new string and update
 		if (string != text)
 		{
 			text = string;
@@ -59,5 +56,6 @@ namespace umbra
 		READ_DATA(value, text);
 		READ_DATA(value, fontName);
 		READ_DATA(value, fontSize);
+		READ_DATA(value, color); //ADD THIS TOO
 	}
 }
