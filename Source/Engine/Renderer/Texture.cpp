@@ -40,13 +40,17 @@ namespace umbra
         }
         return true;
     }
+
     vec2 Texture::GetSize()
     {
-        // ASSERT texture is not null
+        // ASSERT texture is not null (checks if the texture exists before proceeding)
+        
+        // Get the width and height of the texture using SDL_QueryTexture
         SDL_Point point;
-        //https://wiki.libsdl.org/SDL2/SDL_QueryTexture
-
         SDL_QueryTexture(m_texture, nullptr, nullptr, &point.x, &point.y);
+
+        // Return the size as a vec2 (casting to float to avoid data loss)
         return vec2{ static_cast<float>(point.x), static_cast<float>(point.y) };
     }
+
 }

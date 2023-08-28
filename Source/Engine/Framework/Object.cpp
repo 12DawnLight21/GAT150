@@ -4,6 +4,6 @@ namespace umbra
 {
 	void Object::Read(const json_t& value)
 	{
-		READ_DATA(value, name)
+		READ_DATA(value, name);
 	}
 }

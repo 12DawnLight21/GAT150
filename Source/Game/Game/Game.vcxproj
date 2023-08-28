@@ -176,7 +176,7 @@
     <ClInclude Include="SpaceRanch.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\..\Build\Assets\scene.json" />
+    <None Include="..\..\..\Build\Assets\spacescene.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

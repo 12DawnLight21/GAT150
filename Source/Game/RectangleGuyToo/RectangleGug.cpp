@@ -39,47 +39,47 @@ void RectangleGug::Update(float dt)
 	switch (m_state)
 	{
 	case RectangleGug::Title:
-		m_state = eState::StartGame;
-
+	/*{
+		auto actor = INSTANTIATE(umbra::Actor, "Crate")
+		actor->transform.position = { umbra::g_renderer.GetWidth(), 100 };
+		actor->Initialize();
+		m_scene->Add(std::move(actor));
+	}*/
 		break;
 
 	case RectangleGug::StartGame:
 
-		m_state = eState::StartLevel;
 		break;
 
 	case RectangleGug::StartLevel:
 		
-		m_state = eState::Tutorial;
+		
 		break;
 
 	case RectangleGug::Tutorial:
 
-			m_state = eState::Game;
+			
 		break;
 
 	case RectangleGug::Game:
 		
-			m_state = eState::GameOverStart;
+			
 		break;
 	case RectangleGug::PlayerDeadStart:
 		
-		m_state = eState::PlayerDead;
+
 		break;
 
 	case RectangleGug::PlayerDead:
 
-			m_state = eState::Game;
 		break;
 
 	case RectangleGug::GameOverStart:
 		
-		m_state = eState::GameOver;
 		break;
 
 	case RectangleGug::GameOver:
 
-		m_state = eState::Title;
 		break;
 
 	default:

@@ -15,7 +15,7 @@
       "components": [
         {
           "type": "SpriteComponent",
-          "textureName": "textures/background.png"
+          "textureName": "Textures/background.png"
         }
       ]
     },
@@ -34,8 +34,8 @@
       "components": [
         {
           "type": "SpriteAnimComponent",
-          "textureName": "textures/coin.png",
-          "defaultSequence": "idle",
+          "textureName": "Textures/coin.png",
+          "defaultSequenceName": "idle",
           "sequences": [
             {
               "name": "idle",
@@ -44,19 +44,60 @@
               "numRows": 1,
               "startFrame": 1,
               "endFrame": 8,
-              "textureName": "textures/coin.png"
+              "textureName": "Textures/coin.png"
             }
           ]
+        },
+        {
+          "type": "Box2DPhysicsComponent",
+          "damping": 0.98,
+          "angularDamping": 2,
+          "gravityScale": 1,
+          "constrainAngle": true
+        },
+        {
+          "type": "Box2DCollisionComponent"
         }
       ]
     },
     {
       "type": "Actor",
-      "name": "Title",
+      "name": "Crate",
+      "tag":  "Ground",
       "persistent": true,
+      "prototype":  true,
       "transform": {
         "position": [
-          400,
+          600,
+          300
+        ],
+        "scale": 1,
+        "rotation": 0
+      },
+      "components": [
+        {
+          "type": "SpriteRenderComponent",
+          "textureName": "Textures/crate.png"
+        },
+        {
+          "type": "Box2DPhysicsComponent"
+        },
+        {
+          "type": "Box2DCollisionComponent",
+          "restitution": 0.1
+        }
+      ]
+    },
+    {
+      "type": "Player",
+      "name": "Player",
+      "tag": "Player",
+      "persistent": true,
+      "speed": 20,
+      "jump": 8,
+      "transform": {
+        "position": [
+          200,
           300
         ],
         "scale": 2,
@@ -64,13 +105,109 @@
       },
       "components": [
         {
-          "type": "TextRenderComponent",
-          "fontName": "MinecraftRegular.ttf",
-          "fontSize": 40,
-          "text": "Erect Grug",
-          "color": [ 0, 1, 1, 1 ]
+          "type": "SpriteAnimComponent",
+          "defaultSequenceName": "idle",
+          "sequences": [
+            {
+              "name": "idle",
+              "fps": 4,
+              "numColumns": 4,
+              "numRows": 1,
+              "startFrame": 1,
+              "endFrame": 4,
+              "textureName": "Textures/erectgrug.png"
+            }
+          ]
+        },
+        {
+          "type": "SpriteAnimComponent",
+          "defaultSequenceName": "run",
+          "sequences": [
+            {
+              "name": "run",
+              "fps": 12,
+              "numColumns": 6,
+              "numRows": 1,
+              "startFrame": 5,
+              "endFrame": 11,
+              "textureName": "Textures/erectgrug.png"
+            }
+          ]
+        },
+        {
+          "type": "Box2DPhysicsComponent"
+        },
+        {
+          "type": "Box2DCollisionComponent",
+          "restitution": 0.1
         }
       ]
-    }
+    },
+    {
+      "type": "Enemy",
+      "name": "Enemy",
+      "tag": "Enemy",
+      "persistent": true,
+      "speed": 15,
+      "jump": 8,
+      "transform": {
+        "position": [
+          200,
+          300
+        ],
+        "scale": 2,
+        "rotation": 0
+      },
+      "components": [
+        {
+          "type": "SpriteAnimComponent",
+          "defaultSequenceName": "idle",
+          "sequences": [
+            {
+              "name": "idle",
+              "fps": 4,
+              "numColumns": 4,
+              "numRows": 1,
+              "startFrame": 1,
+              "endFrame": 4,
+              "textureName": "Textures/bat.png"
+            }
+          ]
+        },
+        {
+          "type": "Box2DPhysicsComponent"
+        },
+        {
+          "type": "Box2DCollisionComponent",
+          "restitution": 0.1
+        }
+      ],
+      {
+        "type": "Actor",
+        "name": "Title",
+        "persistent": true,
+        "transform": {
+          "position": [
+            400,
+            300
+          ],
+          "scale": 2,
+          "rotation": 0
+        },
+        "components": [
+          {
+            "type": "TextRenderComponent",
+            "fontName": "MinecraftRegular.ttf",
+            "fontSize": 40,
+            "text": "Erect Grug",
+            "color": [
+              0,
+              1,
+              1,
+              1
+            ]
+          }
+        ]
+      }
   ]
 }

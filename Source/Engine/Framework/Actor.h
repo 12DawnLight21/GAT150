@@ -14,6 +14,9 @@ namespace umbra
 		Actor() = default;
 		Actor(const Transform& transform) : transform{transform} {}
 		Actor(const Actor& other);
+		virtual ~Actor() {
+			OnDestroy();
+		}
 
 		virtual bool Initialize();
 		virtual void OnDestroy();

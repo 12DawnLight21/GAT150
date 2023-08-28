@@ -89,9 +89,9 @@ namespace umbra
 				READ_DATA(componentValue, type);
 
 				auto component = CREATE_NAMESPACE_CLASSBASE(Component, type);
-				component->Read(componentValue);
+				component->Read(componentValue); // MYVAL2 IS NULLPTR AGAIN FOR LIKE THE 6 BILLIONTH TIME ijPTIUHR-TIUAHT-IRE GKDNG
 
-				AddComponent(std::move(component)); //have to move it cause its a unique pointer
+				AddComponent(std::move(component));
 			}
 		}
 	}

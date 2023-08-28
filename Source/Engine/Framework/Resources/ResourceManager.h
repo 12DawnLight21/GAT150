@@ -32,11 +32,14 @@ namespace umbra
         res_t<T> resource = std::make_shared<T>();
         
         resource = std::make_shared<T>();
+        if (!resource->Create(filename, args...))
+        {
+            //if resource not created
+            WARNING_LOG("Could not create resource: " << filename);
+            return res_t<T>();
+        }
 
-        resource->Create(filename, args...);
-        
         m_resources[filename] = resource;
-
         return resource;
     }
 };

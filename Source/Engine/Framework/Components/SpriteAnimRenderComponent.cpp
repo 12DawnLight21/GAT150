@@ -92,11 +92,10 @@ namespace umbra
 			}
 		}
 
-		//gives me errors whoops
-		//if (!READ_DATA(value, defaultSequenceName))
-		//{
-		//	// if default sequence not specified, use the first sequence in the sequences map
-		//	defaultSequenceName = m_sequences.begin()->first;
-		//}
+		if (!READ_DATA(value, defaultSequenceName))
+		{
+			// if default sequence not specified, use the first sequence in the sequences map
+			defaultSequenceName = m_sequences.begin()->first;
+		}
 	}
 }
