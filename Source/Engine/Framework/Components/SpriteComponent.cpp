@@ -10,7 +10,7 @@ namespace umbra
 		bool SpriteComponent::Initialize()
 	{
 		if (!textureName.empty()) m_texture = GET_RESOURCE(Texture, textureName, g_renderer);
-		if (source.w == 0 && source.h == 0) //michael needs these too
+		if (source.w == 0 && source.h == 0)
 		{
 			if (m_texture)
 			{
@@ -31,12 +31,14 @@ namespace umbra
 
 	void SpriteComponent::Draw(Renderer& renderer)
 	{
-		renderer.DrawTexture(m_texture.get(), source, m_owner->transform);
+		renderer.DrawTexture(m_texture.get(), source, m_owner->transform, origin, flipH);
 	}
 
 	void SpriteComponent::Read(const json_t& value)
 	{
 		READ_DATA(value, textureName);
-		READ_DATA(value, source); //add this
+		READ_DATA(value, source);
+		READ_DATA(value, flipH);
+		READ_DATA(value, origin);
 	}
 }

@@ -39,7 +39,7 @@ namespace umbra
     {
         if (other->tag != tag)
         {
-            SetDestroyed(true);
+            destroyed = true;
         }
     }
 

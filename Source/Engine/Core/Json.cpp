@@ -104,8 +104,6 @@ namespace umbra
 		return true;
 	}
 
-	//michael needs these 8/25/23
-
 	bool Json::Read(const rapidjson::Value& value, const std::string& name, Color& data, bool required)
 	{
 		if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsArray() || value[name.c_str()].Size() != 4) //if != 4, not a color
@@ -145,6 +143,51 @@ namespace umbra
 				return false;
 			}
 			data[i] = array[i].GetInt();
+		}
+		return true;
+	}
+
+	bool Json::Read(const rapidjson::Value& value, const std::string& name, std::vector<std::string>& data, bool required)
+	{
+		if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsArray())
+		{
+			if (required) ERROR_LOG("Cannot read required json data: " << name.c_str());
+			return false;
+		}
+
+		auto& array = value[name.c_str()];
+
+		for (rapidjson::SizeType i = 0; i < array.Size(); i++)
+		{
+			if (!array[i].IsString())
+			{
+				ERROR_LOG("Invalid json data type: " << name.c_str());
+				return false;
+			}
+			data.push_back(array[i].GetString());
+		}
+
+		return true;
+	}
+
+	bool Json::Read(const rapidjson::Value& value, const std::string& name, std::vector<int>& data, bool required)
+	{
+		if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsArray())
+		{
+			if (required) ERROR_LOG("Cannot read required json data: " << name.c_str());
+			return false;
+		}
+
+		auto& array = value[name.c_str()];
+
+		for (rapidjson::SizeType i = 0; i < array.Size(); i++)
+		{
+			if (!array[i].IsNumber())
+			{
+				ERROR_LOG("Invalid json data type: " << name.c_str());
+				return false;
+			}
+			data.push_back(array[i].GetInt());
 		}
 		return true;
 	}

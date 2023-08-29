@@ -5,6 +5,7 @@
 #include "Math/Rect.h"
 
 #include <string>
+#include <vector>
 
 #define READ_DATA(value, data) umbra::Json::Read(value, #data, data)
 #define READ_DATA_REQUIRED(value, data) umbra::Json::Read(value, #data, data, true)
@@ -29,8 +30,11 @@ namespace umbra
 
 		static bool Read(const rapidjson::Value& value, const std::string& name, Vector2& data, bool required = false);
 
-		static bool Read(const rapidjson::Value& value, const std::string& name, Color& data, bool required = false); //michael needs this
-		static bool Read(const rapidjson::Value& value, const std::string& name, Rect& data, bool required = false); //michael needs this
+		static bool Read(const rapidjson::Value& value, const std::string& name, Color& data, bool required = false); 
+		static bool Read(const rapidjson::Value& value, const std::string& name, Rect& data, bool required = false);
+
+		static bool Read(const rapidjson::Value& value, const std::string& name, std::vector<std::string>& data, bool required = false);
+		static bool Read(const rapidjson::Value& value, const std::string& name, std::vector<int>& data, bool required = false);
 	};
 
 	using json_t = rapidjson::Value;

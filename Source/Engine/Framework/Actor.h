@@ -1,69 +1,65 @@
 #pragma once
-#include "Core/Core.h"
-#include "Renderer/Model.h"
+#include "Object.h"
 #include "Components/Component.h"
-#include <memory>
+#include "Renderer/Model.h"
+#include "Core/Core.h"
+#include "Framework/Components/PhysicsComponent.h"
 
 namespace umbra
 {
-	class Actor : public Object
-	{
-	public:
-		CLASS_DECLARATION(Actor)
+    class Scene;
 
-		Actor() = default;
-		Actor(const Transform& transform) : transform{transform} {}
-		Actor(const Actor& other);
-		virtual ~Actor() {
-			OnDestroy();
-		}
+    class Actor : public Object
+    {
+    public:
+        CLASS_DECLARATION(Actor)
 
-		virtual bool Initialize();
-		virtual void OnDestroy();
+        Actor() = default;
+        Actor(const Transform& transform) :
+            transform{ transform } {}
+        Actor(const Actor& other);
+        virtual ~Actor() {
+            OnDestroy();
+        }
 
-		virtual void Update(float dt); //dt = delta time
-		virtual void Draw(Renderer& renderer);
+        virtual bool Initialize() override;
+        virtual void OnDestroy() override;
 
-		void AddComponent(std::unique_ptr<Component> component);
-		template<typename T>
-		T* GetComponent();
+        virtual  void Update(float dt);
+        virtual  void Draw(Renderer& renderer);
 
-		virtual void OnCollisionEnter(Actor* other) {};
-		virtual void OnCollisionExit(Actor* other) {};
+        void AddComponent(std::unique_ptr<Component> component);
+        template<typename T>
+        T* GetComponent();
 
-		float GetLifespan() { return lifespan; };
-		float SetLifespan(float lifespan) { return lifespan = lifespan; };
+        virtual    void OnCollisionEnter(Actor* other) {}
+        virtual    void OnCollisionExit(Actor* other) {}
 
-		bool GetDestroyed() { return destroyed; };
-		bool SetDestroyed(bool destroyed) { return destroyed = destroyed; };
+        class Scene* m_scene = nullptr;
+        class Game* m_game = nullptr;
 
-		class Scene* m_scene = nullptr; //inline forward declaration
-		friend class Scene;
+        friend class Scene;
+    public:
+        Transform transform;
+        std::string tag;
+        float lifespan = -1.0f;
+        bool destroyed = false; //flag
+        bool persistent = false;
+        bool prototype = false;
 
-		class Game* m_game = nullptr;
+    protected:
+        std::vector<std::unique_ptr<Component>> components;
+    };
+    template<typename T>
+    inline T* Actor::GetComponent()
+    {
+        for (auto& component : components)
+        {
+            auto result = dynamic_cast<T*>(component.get());
+            if (result) return result;
+        }
 
-	public:
-		Transform transform;
-		std::string tag;
-		bool persistent = false;
-		bool prototype = false;
-		bool destroyed = false; //a flag
+        return nullptr;
+    }
 
-	protected:
-		std::vector<std::unique_ptr<Component>> components;
-
-		float lifespan = -1.0f;
-	};
-
-	template<typename T>
-	inline T* Actor::GetComponent()
-	{
-		for (auto& component : components)
-		{
-			T* result = dynamic_cast<T*>(component.get()); 
-			if (result) return result;
-		}
-
-		return nullptr;
-	}
 }

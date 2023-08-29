@@ -81,8 +81,7 @@ namespace umbra
 
 			Transform transformm{ transform.position, 0, 1 };
 			auto emitter = std::make_unique<Emitter>(transform, data);
-			//emitter->m_lifespan = 1.0f; rewrote this to be better?
-			emitter->SetLifespan(0.1f);
+			emitter->lifespan = 1.0f;
 			m_scene->Add(std::move(emitter));
 
 			m_game->AddPoints(100);

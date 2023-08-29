@@ -25,8 +25,8 @@
       "persistent": true,
       "transform": {
         "position": [
-          400,
-          300
+          440,
+          200
         ],
         "scale": 1,
         "rotation": 0
@@ -50,7 +50,7 @@
         },
         {
           "type": "Box2DPhysicsComponent",
-          "damping": 0.98,
+          "damping": 0,
           "angularDamping": 2,
           "gravityScale": 1,
           "constrainAngle": true
@@ -63,28 +63,76 @@
     {
       "type": "Actor",
       "name": "Crate",
-      "tag":  "Ground",
+      "tag": "Ground",
       "persistent": true,
-      "prototype":  true,
       "transform": {
         "position": [
-          600,
-          300
+          380,
+          200
         ],
         "scale": 1,
         "rotation": 0
       },
       "components": [
         {
-          "type": "SpriteRenderComponent",
+          "type": "SpriteComponent",
           "textureName": "Textures/crate.png"
         },
         {
-          "type": "Box2DPhysicsComponent"
+          "type": "Box2DPhysicsComponent",
+          "damping": 0,
+          "angularDamping": 2,
+          "gravityScale": 1,
+          "constrainAngle": true
         },
         {
           "type": "Box2DCollisionComponent",
-          "restitution": 0.1
+          "restitution": 1
+        }
+      ]
+    },
+    {
+      "type": "Enemy",
+      "name": "Enemy",
+      "tag": "Enemy",
+      "persistent": true,
+      "speed": 5,
+      "jump": 5,
+      "transform": {
+        "position": [
+          200,
+          300
+        ],
+        "scale": 2,
+        "rotation": 0
+      },
+      "components": [
+        {
+          "type": "SpriteAnimComponent",
+          "textureName": "Textures/bat.png",
+          "defaultSequenceName": "idle",
+          "sequences": [
+            {
+              "name": "idle",
+              "fps": 12,
+              "numColumns": 4,
+              "numRows": 1,
+              "startFrame": 1,
+              "endFrame": 4,
+              "textureName": "Textures/bat.png"
+            }
+          ]
+        },
+        {
+          "type": "Box2DPhysicsComponent",
+          "gravityScale": 0,
+          "constrainAngle": true,
+          "damping": 0.9
+        },
+        {
+          "type": "Box2DCollisionComponent",
+          "restitution": 0.1,
+          "isTrigger":  true
         }
       ]
     },
@@ -97,7 +145,7 @@
       "jump": 8,
       "transform": {
         "position": [
-          200,
+          400,
           300
         ],
         "scale": 2,
@@ -106,108 +154,78 @@
       "components": [
         {
           "type": "SpriteAnimComponent",
+          "textureName": "Textures/erectgrug.png",
           "defaultSequenceName": "idle",
           "sequences": [
             {
               "name": "idle",
-              "fps": 4,
-              "numColumns": 4,
+              "fps": 12,
+              "numColumns": 24,
               "numRows": 1,
               "startFrame": 1,
               "endFrame": 4,
               "textureName": "Textures/erectgrug.png"
-            }
-          ]
-        },
-        {
-          "type": "SpriteAnimComponent",
-          "defaultSequenceName": "run",
-          "sequences": [
+            },
             {
               "name": "run",
               "fps": 12,
-              "numColumns": 6,
+              "numColumns": 24,
               "numRows": 1,
               "startFrame": 5,
-              "endFrame": 11,
+              "endFrame": 10,
               "textureName": "Textures/erectgrug.png"
             }
           ]
         },
         {
-          "type": "Box2DPhysicsComponent"
+          "type": "Box2DPhysicsComponent",
+          "constrainAngle": true,
+          "gravityScale": 2
         },
         {
-          "type": "Box2DCollisionComponent",
-          "restitution": 0.1
+          "type": "Box2DCollisionComponent"
         }
       ]
     },
     {
-      "type": "Enemy",
-      "name": "Enemy",
-      "tag": "Enemy",
-      "persistent": true,
-      "speed": 15,
-      "jump": 8,
+      "type": "Actor",
+      "tag": "Ground",
       "transform": {
         "position": [
-          200,
-          300
-        ],
+          400,
+          520
+        ]
+      },
+      "components": [
+        {
+          "type": "Box2DPhysicsComponent",
+          "isDynamic": false
+        },
+        {
+          "type": "Box2DCollisionComponent",
+          "size": [ 600, 20 ],
+          "restitution": 1
+        }
+      ]
+    },
+    {
+      "type": "Actor",
+      "name": "Title",
+      "persistent": true,
+      "transform": {
+        "position": [ 400, 200 ],
         "scale": 2,
         "rotation": 0
       },
       "components": [
         {
-          "type": "SpriteAnimComponent",
-          "defaultSequenceName": "idle",
-          "sequences": [
-            {
-              "name": "idle",
-              "fps": 4,
-              "numColumns": 4,
-              "numRows": 1,
-              "startFrame": 1,
-              "endFrame": 4,
-              "textureName": "Textures/bat.png"
-            }
-          ]
-        },
-        {
-          "type": "Box2DPhysicsComponent"
-        },
-        {
-          "type": "Box2DCollisionComponent",
-          "restitution": 0.1
+          "type": "TextRenderComponent",
+          "fontName": "MinecraftRegular.ttf",
+          "fontSize": 40,
+          "text": "Erect Grug",
+          "color": [ 1, 0, 0, 1 ]
         }
-      ],
-      {
-        "type": "Actor",
-        "name": "Title",
-        "persistent": true,
-        "transform": {
-          "position": [
-            400,
-            300
-          ],
-          "scale": 2,
-          "rotation": 0
-        },
-        "components": [
-          {
-            "type": "TextRenderComponent",
-            "fontName": "MinecraftRegular.ttf",
-            "fontSize": 40,
-            "text": "Erect Grug",
-            "color": [
-              0,
-              1,
-              1,
-              1
-            ]
-          }
-        ]
-      }
+      ]
+    }
   ]
 }

@@ -1,6 +1,6 @@
 #include "Box2dPhysicsCollisionComponent.h"
 #include "Box2DPhysicsComponent.h"
-#include "SpriteComponent.h" //and this
+#include "SpriteComponent.h"
 #include "Framework/Actor.h"
 
 namespace umbra

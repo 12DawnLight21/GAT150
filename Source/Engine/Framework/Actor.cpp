@@ -1,12 +1,11 @@
 #include "Actor.h"
-#include "Framework/Components/Component.h"
-#include "Framework/Components/RenderComponent.h"
+#include "Components/RenderComponent.h"
 
 namespace umbra
 {
 	CLASS_DEFINITION(Actor)
 
-	Actor::Actor(const Actor& other)
+		Actor::Actor(const Actor& other)
 	{
 		name = other.name;
 		tag = other.tag;
@@ -41,13 +40,12 @@ namespace umbra
 
 	void Actor::Update(float dt)
 	{
-		if (lifespan != -1)
+		if (lifespan != -1.0f)
 		{
 			lifespan -= dt;
-			destroyed = (lifespan <= 0);
+			destroyed = (lifespan <= 0.0f);
 		}
-
-		for (auto& component : components)
+		for (auto& component : components) //fix a issue with unique ptr and make it & actor
 		{
 			component->Update(dt);
 		}
@@ -55,15 +53,13 @@ namespace umbra
 
 	void Actor::Draw(umbra::Renderer& renderer)
 	{
-		for (auto& component : components)
+		for (auto& component : components) //fix a issue with unique ptr and make it & actor
 		{
-			RenderComponent* r_component = dynamic_cast<RenderComponent*>(component.get());
-			if (r_component)
+			if (dynamic_cast<RenderComponent*>(component.get()))
 			{
-				r_component->Draw(renderer);
+				dynamic_cast<RenderComponent*>(component.get())->Draw(renderer);
 			}
 		}
-
 	}
 
 	void Actor::AddComponent(std::unique_ptr<Component> component)
@@ -78,6 +74,8 @@ namespace umbra
 
 		READ_DATA(value, tag);
 		READ_DATA(value, lifespan);
+		READ_DATA(value, persistent);
+		READ_DATA(value, prototype);
 
 		if (HAS_DATA(value, transform)) transform.Read(GET_DATA(value, transform));
 
@@ -87,9 +85,8 @@ namespace umbra
 			{
 				std::string type;
 				READ_DATA(componentValue, type);
-
-				auto component = CREATE_NAMESPACE_CLASSBASE(Component, type);
-				component->Read(componentValue); // MYVAL2 IS NULLPTR AGAIN FOR LIKE THE 6 BILLIONTH TIME ijPTIUHR-TIUAHT-IRE GKDNG
+				auto component = umbra::Factory::Instance().Create<umbra::Component>(type);
+				component->Read(componentValue); //spriteanimrendercomponent component._Mypair._Myval2 was nullptr
 
 				AddComponent(std::move(component));
 			}

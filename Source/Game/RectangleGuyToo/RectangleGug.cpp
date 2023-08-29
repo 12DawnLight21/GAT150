@@ -20,6 +20,7 @@ bool RectangleGug::Initialize()
 	//create scene
 	m_scene = std::make_unique<umbra::Scene>();
 	m_scene->Load("scenes/scene.json");
+	m_scene->Load("scenes/tilemap.json");
 	m_scene->Initialize();
 
 	EVENT_SUBSCRIBE("OnAddPoints", RectangleGug::OnAddPoints);

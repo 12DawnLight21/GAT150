@@ -164,8 +164,7 @@ void SpaceRanch::Update(float dt)
 
 			umbra::Transform transform{ { umbra::g_inputSystem.GetMousePosition() }, 0, 1 };
 			auto emitter = std::make_unique<umbra::Emitter>(transform, data);
-			//emitter->m_lifespan = 1.0f; rewrote this to be better?
-			emitter->SetLifespan(emitter->GetLifespan());
+			emitter->lifespan = 1.0f;
 			m_scene->Add(std::move(emitter));
 		}
 

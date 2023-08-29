@@ -1,46 +1,45 @@
 #pragma once
 #include "SpriteComponent.h"
-#include "Renderer/Texture.h"
-#include "Framework/Factory.h"
 
 namespace umbra
 {
-	class SpriteAnimComponent : public SpriteComponent
-	{
-	public:
-		CLASS_DECLARATION(SpriteAnimComponent)
+    class SpriteAnimComponent : public SpriteComponent
+    {
+    public:
+        struct AnimSequence
+        {
+            std::string name;
 
-		struct AnimSequence
-		{
-			std::string name;
+            float fps = 0;         // Frames per second of the animation
+            int numColumns = 0;    // Number of columns in the sprite sheet
+            int numRows = 0;       // Number of rows in the sprite sheet
 
-			float fps = 0;
-			int numColumns = 0;
-			int numRows = 0;
+            int startFrame = 0;    // Starting frame of the sequence
+            int endFrame = 0;      // Ending frame of the sequence
 
-			int startFrame = 0;
-			int endFrame = 0;
+            bool loop = true;      // Whether the animation should loop
 
-			bool loop = true;
+            std::shared_ptr<Texture> texture;  // Pointer to the texture used for this sequence
+        };
 
-			std::shared_ptr<Texture> texture;
-		};
+    public:
+        CLASS_DECLARATION(SpriteAnimComponent)
 
-	public:
-		bool Initialize() override;
-		void Update(float dt);
+        bool Initialize() override;
+        void Update(float dt);
 
-		void SetSequence(const std::string& name);
-		void UpdateSource();
+        void SetSequence(const std::string& name);
+        void UpdateSource();
 
-	public:
-		int frame = 0;
-		float frameTimer = 0;
+    public:
+        int frame = 0;           // Current frame of the animation
+        float frameTimer = 0;    // Timer for controlling frame updates
 
-	private:
-		std::string defaultSequenceName; //what we wanna play at the beginning
-		std::map<std::string, AnimSequence> m_sequences;
+    private:
+        std::string defaultSequenceName;
 
-		AnimSequence* m_currentSequence = nullptr;
-	};
+        std::map<std::string, AnimSequence> m_sequences;
+
+        AnimSequence* m_currentSequence = nullptr;
+    };
 }

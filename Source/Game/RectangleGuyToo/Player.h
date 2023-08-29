@@ -1,6 +1,7 @@
 #pragma once
 #include "Framework/Framework.h"
 #include "Framework/Components/PhysicsComponent.h"
+#include "Framework/Components/SpriteAnimRenderComponent.h"
 
 namespace umbra
 {
@@ -9,7 +10,7 @@ namespace umbra
 	public:
 		CLASS_DECLARATION(Player)
 
-			Player() = default;
+		Player() = default;
 
 		bool Initialize() override;
 
@@ -23,5 +24,6 @@ namespace umbra
 		int groundCount = 0;
 
 		PhysicsComponent* m_physicsComponent = nullptr;
+		SpriteAnimComponent* m_spriteAnimComponent = nullptr;
 	};
 }

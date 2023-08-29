@@ -13,6 +13,7 @@ namespace umbra
 
 		bool Initialize() override;
 
+		void OnDestroy() override;
 		void Update(float dt) override;
 		void OnCollisionEnter(Actor* other) override;
 		void OnCollisionExit(Actor* other) override;

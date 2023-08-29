@@ -56,7 +56,8 @@ int main(int argc, char* argv[])
 		game->Update(umbra::g_time.GetDeltaTime());
 
 		umbra::g_renderer.SetColor(0, 0, 0, 0); //sets color to black
-		umbra::g_renderer.BeginFrame(); //clears the screen, allows for less static
+
+		umbra::g_renderer.BeginFrame();
 		
 		//update draw
 
