@@ -10,5 +10,3 @@ INFO: Class registered: CircleCollisionComponent
 INFO: Class registered: Box2DPhysicsComponent
 INFO: Class registered: Box2DCollisionComponent
 INFO: Class registered: Actor
-INFO: Event Subscribed: OnAddPoints
-INFO: Event Subscribed: OnPlayerDead

@@ -25,29 +25,30 @@ namespace umbra
 	{
 		Actor::Update(dt);
 
+		bool onGround = (groundCount > 0);
+		vec2 velocity = m_physicsComponent->velocity;
+
 		//move ment
 		float dir = 0; //direction!
 		if (g_inputSystem.getKeyDown(SDL_SCANCODE_A)) dir = -1;
 		if (g_inputSystem.getKeyDown(SDL_SCANCODE_D)) dir = 1;
 
-		vec2 forward = vec2{ 1, 0 };
-
-		m_physicsComponent->ApplyForce(forward * speed * dir);
-
-		transform.position.x = Wrap(transform.position.x, (float)g_renderer.GetWidth());
-		transform.position.y = Wrap(transform.position.y, (float)g_renderer.GetHeight());
+		if (dir)
+		{
+			vec2 forward = vec2{ 1, 0 };
+			velocity.x += speed * dir * ((onGround) ? 1 : 0.25f) * dt;
+			velocity.x = Clamp(velocity.x, -maxSpeed, maxSpeed);
+			m_physicsComponent->SetVelocity(velocity);
+		}
 
 		//jump jump
-		bool onGround = (groundCount > 0);
-
 		if (onGround && g_inputSystem.getKeyDown(SDL_SCANCODE_SPACE) && !g_inputSystem.getPreviousKeyDown(SDL_SCANCODE_SPACE))
 		{
 			vec2 up = vec2{ 0, -1 };
-			m_physicsComponent->SetVelocity(up * jump);
+			m_physicsComponent->SetVelocity(velocity + (up * jump));
 		}
 
-		//animation please just work and not cause problems PLEASE JUST WORK AND DONT CAUSE PROBLEMS
-		vec2 velocity = m_physicsComponent->velocity;
+		m_physicsComponent->SetGravityScale((velocity.y > 0) ? 3.2 : 1);
 
 		if (std::fabs(velocity.x > 0.2f))
 		{
@@ -65,7 +66,7 @@ namespace umbra
 	{
 		if (other->tag == "Enemy")
 		{
-			destroyed = true;
+			//destroyed = true;
 		}
 
 		if (other->tag == "Ground") groundCount++;
@@ -81,6 +82,7 @@ namespace umbra
 		Actor::Read(value);
 
 		READ_DATA(value, speed);
+		READ_DATA(value, maxSpeed);
 		READ_DATA(value, jump);
 	}
 }

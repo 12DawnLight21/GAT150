@@ -28,7 +28,7 @@ namespace umbra
         bool Initialize() override;
         void Update(float dt);
 
-        void SetSequence(const std::string& name);
+        void SetSequence(const std::string& name, bool update = true);
         void UpdateSource();
 
     public:

@@ -7,12 +7,15 @@ namespace umbra
 {
 		CLASS_DEFINITION(SpriteAnimComponent)
 
-		bool SpriteAnimComponent::Initialize()
+	bool SpriteAnimComponent::Initialize()
 	{
 		SpriteComponent::Initialize();
 
 		SetSequence(defaultSequenceName);
-		UpdateSource();
+		if (source.w == 0 && source.h == 0)
+		{
+			UpdateSource();
+		}
 
 		return true;
 	}
@@ -34,7 +37,7 @@ namespace umbra
 		UpdateSource();
 	}
 
-	void SpriteAnimComponent::SetSequence(const std::string& name)
+	void SpriteAnimComponent::SetSequence(const std::string& name, bool update)
 	{
 		//prevents setting sequence again
 		if (m_currentSequence && m_currentSequence->name == name) return;
@@ -49,6 +52,8 @@ namespace umbra
 			//set frame information
 			frame = m_currentSequence->startFrame;
 			frameTimer = 1.0f / m_currentSequence->fps;
+
+			if (update) UpdateSource();
 		}
 	}
 

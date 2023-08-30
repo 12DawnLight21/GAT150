@@ -36,7 +36,6 @@ int main(int argc, char* argv[])
 	//umbra::g_audioSystem.PlayOneShot("bg_music", true); //song is The Hand of the Queen from the game Rectangle Guy
 
 	bool quit = false;
-	// Main GAME LOOP
 	while (!quit)
 	{
 		//update engine
@@ -54,8 +53,6 @@ int main(int argc, char* argv[])
 
 		//update game
 		game->Update(umbra::g_time.GetDeltaTime());
-
-		umbra::g_renderer.SetColor(0, 0, 0, 0); //sets color to black
 
 		umbra::g_renderer.BeginFrame();
 		

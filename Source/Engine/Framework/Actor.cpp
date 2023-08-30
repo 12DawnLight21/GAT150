@@ -53,11 +53,12 @@ namespace umbra
 
 	void Actor::Draw(umbra::Renderer& renderer)
 	{
-		for (auto& component : components) //fix a issue with unique ptr and make it & actor
+		for (auto& component : components)
 		{
-			if (dynamic_cast<RenderComponent*>(component.get()))
+			RenderComponent* renderComponent = dynamic_cast<RenderComponent*>(component.get());
+			if (renderComponent)
 			{
-				dynamic_cast<RenderComponent*>(component.get())->Draw(renderer);
+				renderComponent->Draw(renderer);
 			}
 		}
 	}

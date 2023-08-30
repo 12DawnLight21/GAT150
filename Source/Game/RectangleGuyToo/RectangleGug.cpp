@@ -1,4 +1,5 @@
 #include "RectangleGug.h"
+#include "Enemy.h"
 
 #include "Framework/Framework.h"
 #include "Renderer/Renderer.h"
@@ -12,10 +13,10 @@
 bool RectangleGug::Initialize()
 {
 	//load audio
-	umbra::g_audioSystem.AddAudio("shoot", "shoot.wav");
-	umbra::g_audioSystem.AddAudio("e_shoot", "enemy_shoot.wav");
-	umbra::g_audioSystem.AddAudio("bg_music", "TheHandoftheQueen.wav");
-	umbra::g_audioSystem.AddAudio("dead", "Explosion.wav");
+	//umbra::g_audioSystem.AddAudio("shoot", "shoot.wav");
+	//umbra::g_audioSystem.AddAudio("e_shoot", "enemy_shoot.wav");
+	//umbra::g_audioSystem.AddAudio("bg_music", "TheHandoftheQueen.wav");
+	//umbra::g_audioSystem.AddAudio("dead", "Explosion.wav");
 
 	//create scene
 	m_scene = std::make_unique<umbra::Scene>();
@@ -23,8 +24,8 @@ bool RectangleGug::Initialize()
 	m_scene->Load("scenes/tilemap.json");
 	m_scene->Initialize();
 
-	EVENT_SUBSCRIBE("OnAddPoints", RectangleGug::OnAddPoints);
-	EVENT_SUBSCRIBE("OnPlayerDead", RectangleGug::OnPlayerDead);
+	//EVENT_SUBSCRIBE("OnAddPoints", RectangleGug::OnAddPoints);
+	//EVENT_SUBSCRIBE("OnPlayerDead", RectangleGug::OnPlayerDead);
 
 	return true;
 }
@@ -40,20 +41,19 @@ void RectangleGug::Update(float dt)
 	switch (m_state)
 	{
 	case RectangleGug::Title:
-	/*{
-		auto actor = INSTANTIATE(umbra::Actor, "Crate")
-		actor->transform.position = { umbra::g_renderer.GetWidth(), 100 };
-		actor->Initialize();
-		m_scene->Add(std::move(actor));
-	}*/
+	
 		break;
 
 	case RectangleGug::StartGame:
+		m_score = 0;
+		m_lives = 3;
+		m_state = eState::StartLevel;
 
 		break;
 
 	case RectangleGug::StartLevel:
-		
+		m_scene->RemoveAll(dt);
+		m_state = eState::Game;
 		
 		break;
 
@@ -63,8 +63,7 @@ void RectangleGug::Update(float dt)
 		break;
 
 	case RectangleGug::Game:
-		
-			
+	
 		break;
 	case RectangleGug::PlayerDeadStart:
 		
@@ -86,6 +85,8 @@ void RectangleGug::Update(float dt)
 	default:
 		break;
 	}
+
+	m_scene->Update(dt);
 }
 
 void RectangleGug::Draw(umbra::Renderer& renderer)

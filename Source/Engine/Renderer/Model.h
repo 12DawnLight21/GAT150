@@ -17,17 +17,12 @@ namespace umbra
 		void Draw(Renderer& renderer, const vec2& position, float rotation, float scale);
 		void Draw(Renderer& renderer, const Transform& transform);
 
-		//sphere collision
-		float GetRadius();
-
 		virtual bool Create(std::string filename, ...) override;
+
+		float GetRadius();
 	private:
-		std::vector<vec2> m_points; //hidden array of points ; vec2 = Vector2 alias
-		
-		//color class
+		std::vector<vec2> m_points;
 		Color m_color;
 		float m_radius = 0;
-
-		// Inherited via Resource
 	};
 }
