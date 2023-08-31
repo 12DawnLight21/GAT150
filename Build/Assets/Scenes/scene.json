@@ -20,58 +20,79 @@
       ]
     },
     {
-      "type": "Actor",
-      "name": "Coin",
+      "type": "Player",
+      "name": "Player",
+      "tag": "Player",
       "persistent": true,
+      "speed": 80,
+      "maxSpeed": 8,
+      "jump": 8,
       "transform": {
         "position": [
-          440,
-          200
+          400,
+          500
         ],
-        "scale": 1,
+        "scale": 2.5,
         "rotation": 0
       },
       "components": [
         {
           "type": "SpriteAnimComponent",
-          "textureName": "Textures/coin.png",
+          "textureName": "Textures/erectgrug.png",
           "defaultSequenceName": "idle",
+          "origin": [ 0.5, 1 ],
           "sequences": [
             {
               "name": "idle",
               "fps": 12,
-              "numColumns": 8,
+              "numColumns": 24,
               "numRows": 1,
               "startFrame": 1,
-              "endFrame": 8,
-              "textureName": "Textures/coin.png"
+              "endFrame": 4,
+              "textureName": "Textures/erectgrug.png"
+            },
+            {
+              "name": "run",
+              "fps": 12,
+              "numColumns": 24,
+              "numRows": 1,
+              "startFrame": 5,
+              "endFrame": 10,
+              "textureName": "Textures/erectgrug.png"
+            },
+            {
+              "name": "hurt",
+              "fps": 12,
+              "numColumns": 24,
+              "numRows": 1,
+              "startFrame": 15,
+              "endFrame": 17,
+              "textureName": "Textures/erectgrug.png"
             }
           ]
         },
         {
           "type": "Box2DPhysicsComponent",
-          "damping": 0,
-          "angularDamping": 2,
-          "gravityScale": 1,
-          "constrainAngle": true
+          "constrainAngle": true,
+          "gravityScale": 2
         },
         {
           "type": "Box2DCollisionComponent",
-          "resitution": 1
+          "resitution": 0
         }
       ]
     },
     {
       "type": "Enemy",
-      "name": "Enemy",
-      "tag": "Enemy",
+      "name": "Bat",
+      "tag": "Bat",
       "persistent": true,
       "speed": 5,
       "jump": 5,
       "transform": {
         "position": [
           200,
-          300
+          100
         ],
         "scale": 2,
         "rotation": 0
@@ -97,48 +118,36 @@
           "type": "Box2DPhysicsComponent",
           "gravityScale": 0,
           "constrainAngle": true,
-          "damping": 1
+          "damping": 0
         },
         {
           "type": "Box2DCollisionComponent",
           "resitution": 0.1,
-          "isTrigger":  false
+          "isTrigger": false
         }
       ]
     },
     {
-      "type": "Player",
-      "name": "Player",
-      "tag": "Player",
+      "type": "Enemy",
+      "name": "Tard",
+      "tag": "Tard",
       "persistent": true,
-      "speed": 80,
-      "maxSpeed":  8,
-      "jump": 8,
+      "speed": 15,
+      "jump": 2,
       "transform": {
         "position": [
-          400,
-          300
+          700,
+          500
         ],
-        "scale": 3,
+        "scale": 2,
         "rotation": 0
       },
       "components": [
         {
           "type": "SpriteAnimComponent",
-          "textureName": "Textures/erectgrug.png",
-          "defaultSequenceName": "idle",
-          "source": [0, 0, 16, 35],
-          "origin": [ 0.5, 1 ],
+          "textureName": "Textures/tard.png",
+          "defaultSequenceName": "run",
           "sequences": [
-            {
-              "name": "idle",
-              "fps": 12,
-              "numColumns": 24,
-              "numRows": 1,
-              "startFrame": 1,
-              "endFrame": 4,
-              "textureName": "Textures/erectgrug.png"
-            },
             {
               "name": "run",
               "fps": 12,
@@ -146,27 +155,29 @@
               "numRows": 1,
               "startFrame": 5,
               "endFrame": 10,
-              "textureName": "Textures/erectgrug.png"
+              "textureName": "Textures/tard.png"
             }
           ]
         },
         {
           "type": "Box2DPhysicsComponent",
+          "gravityScale": 0,
           "constrainAngle": true,
-          "gravityScale": 2
+          "damping": 1
         },
         {
           "type": "Box2DCollisionComponent",
-          "resitution": 0
+          "resitution": 0.1,
+          "isTrigger": false
         }
       ]
     },
     {
       "type": "Actor",
-      "name": "Title",
+      "name": "Score",
       "persistent": true,
       "transform": {
-        "position": [ 400, 200 ],
+        "position": [ 650, 300 ],
         "scale": 2,
         "rotation": 0
       },
@@ -174,9 +185,9 @@
         {
           "type": "TextRenderComponent",
           "fontName": "MinecraftRegular.ttf",
-          "fontSize": 40,
-          "text": "Erect Grug",
-          "color": [ 1, 0, 0, 1 ]
+          "fontSize": 36,
+          "text": "000",
+          "color": [ 1, 1, 1, 1 ]
         }
       ]
     }

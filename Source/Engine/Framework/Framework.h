@@ -12,6 +12,7 @@
 #include "Components/RenderComponent.h"
 #include "Components/SpriteComponent.h"
 #include "Components/ModelRenderComponent.h"
+#include "Components/TextRenderComponent.h"
 #include "Components/PhysicsComponent.h"
 #include "Components/EnginePhysicsComponent.h"
 

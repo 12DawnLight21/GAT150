@@ -49,8 +49,9 @@ namespace umbra
 
 	void Enemy::OnCollisionEnter(Actor* other)
 	{
-		if (other->tag == "Enemy")
+		if (other->tag == "Player")
 		{
+			umbra::g_audioSystem.PlayOneShot("chomp");
 			destroyed = true;
 		}
 

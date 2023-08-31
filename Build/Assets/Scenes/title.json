@@ -1,0 +1,61 @@
+{
+  "actors": [
+    {
+      "type": "Actor",
+      "name": "Title",
+      "persistent": true,
+      "transform": {
+        "position": [ 400, 200 ],
+        "scale": 2,
+        "rotation": 0
+      },
+      "components": [
+        {
+          "type": "TextRenderComponent",
+          "fontName": "MinecraftRegular.ttf",
+          "fontSize": 36,
+          "text": "Dino Feeder",
+          "color": [ 0, 0, 0, 1 ]
+        }
+      ]
+    },
+    {
+      "type": "Actor",
+      "name": "Instructions",
+      "persistent": true,
+      "transform": {
+        "position": [ 350, 300 ],
+        "scale": 2,
+        "rotation": 0
+      },
+      "components": [
+        {
+          "type": "TextRenderComponent",
+          "fontName": "MinecraftRegular.ttf",
+          "fontSize": 36,
+          "text": "Press space!",
+          "color": [ 1, 1, 1, 1 ]
+        }
+      ]
+    },
+    {
+      "type": "Actor",
+      "name": "Win",
+      "persistent": true,
+      "transform": {
+        "position": [ 200, 500 ],
+        "scale": 2,
+        "rotation": 0
+      },
+      "components": [
+        {
+          "type": "TextRenderComponent",
+          "fontName": "MinecraftRegular.ttf",
+          "fontSize": 36,
+          "text": "Your dino is full!",
+          "color": [ 1, 1, 1, 1 ]
+        }
+      ]
+    }
+  ]
+}

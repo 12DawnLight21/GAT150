@@ -35,7 +35,7 @@ namespace umbra
 
 		if (dir)
 		{
-			vec2 forward = vec2{ 1, 0 };
+			//vec2 forward = vec2{ 1, 0 };
 			velocity.x += speed * dir * ((onGround) ? 1 : 0.25f) * dt;
 			velocity.x = Clamp(velocity.x, -maxSpeed, maxSpeed);
 			m_physicsComponent->SetVelocity(velocity);
@@ -48,7 +48,7 @@ namespace umbra
 			m_physicsComponent->SetVelocity(velocity + (up * jump));
 		}
 
-		m_physicsComponent->SetGravityScale((velocity.y > 0) ? 3.2 : 1);
+		//m_physicsComponent->SetGravityScale((velocity.y > 0) ? 3.2 : 1);
 
 		if (std::fabs(velocity.x > 0.2f))
 		{
@@ -60,13 +60,14 @@ namespace umbra
 		{
 			m_spriteAnimComponent->SetSequence("idle");
 		}
+		
 	}
 
 	void Player::OnCollisionEnter(Actor* other)
 	{
-		if (other->tag == "Enemy")
+		if (other->tag == "Coin")
 		{
-			//destroyed = true;
+			m_spriteAnimComponent->SetSequence("hurt");
 		}
 
 		if (other->tag == "Ground") groundCount++;
